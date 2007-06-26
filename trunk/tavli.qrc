@@ -1,0 +1,23 @@
+<RCC>
+    <qresource prefix="/" >
+        <file>images/copy.png</file>
+        <file>images/cut.png</file>
+        <file>images/kontact_contacts.png</file>
+        <file>images/network.png</file>
+        <file>images/new.png</file>
+        <file>images/open.png</file>
+        <file>images/paste.png</file>
+        <file>images/redo.png</file>
+        <file>images/roll.png</file>
+        <file>images/save.png</file>
+        <file>images/server.png</file>
+        <file>images/tavli.png</file>
+        <file>images/undo.png</file>
+        <file>images/1.png</file>
+        <file>images/2.png</file>
+        <file>images/3.png</file>
+        <file>images/4.png</file>
+        <file>images/5.png</file>
+        <file>images/6.png</file>
+    </qresource>
+</RCC>
