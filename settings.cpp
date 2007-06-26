@@ -4,11 +4,15 @@
 
 #ifdef __GNUC__
 #include <pwd.h> 
+#else
+#include <windows.h>
 #endif
 
 SettingsDialog::SettingsDialog(QWidget *parent)
      : QDialog(parent)
  {
+	 QString user;
+
      setupUi(this);
 /*
      colorDepthCombo->addItem(tr("2 colors (1 bit per pixel)"));
@@ -22,16 +26,28 @@ SettingsDialog::SettingsDialog(QWidget *parent)
 	 struct passwd *userinfo;
 	 
 	 userinfo=getpwuid(getuid());
-	 QString user = userinfo -> pw_name;
-	 QString firstLetter=user.left(1);
-	 QString rest=user.right(user.length()-1);
-	 user=firstLetter.toUpper()+rest;
+	 user = userinfo -> pw_name;
 #else
-	 QString user="foo";
+
+	 DWORD dwBuffer = 256;       
+    TCHAR strUserName[255];
+	GetUserName(strUserName, &dwBuffer); 
+QT_WA ( 
+{
+    user = QString::fromWCharArray (reinterpret_cast<ushort *>(strUserName));
+} , 
+{
+	user = QString::fromLocal8Bit (reinterpret_cast<const char *>(&(strUserName[0])));
+} ); // QT_WA
+
 #endif
-	 player1Name->setText(user);
-	 remoteIP->setText("127.0.0.1");
-     connect(okButton, SIGNAL(clicked()), this, SLOT(accept()));
-     connect(cancelButton, SIGNAL(clicked()), this, SLOT(reject()));
+	QString firstLetter=user.left(1);
+	QString rest=user.right(user.length()-1);
+	user=firstLetter.toUpper()+rest;
+
+	player1Name->setText(user);
+	//remoteIP->setText("127.0.0.1");
+    connect(okButton, SIGNAL(clicked()), this, SLOT(accept()));
+    connect(cancelButton, SIGNAL(clicked()), this, SLOT(reject()));
 }
 

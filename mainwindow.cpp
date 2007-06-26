@@ -99,6 +99,7 @@ MainWindow::MainWindow()
 	msgDisplay->moveCursor(QTextCursor::End);
 	msgDisplay->ensureCursorVisible ();
 	msgInput->hide();
+	setWindowTitle(tr("tavli"));
 }
 
 void MainWindow::gotConnection(void)
