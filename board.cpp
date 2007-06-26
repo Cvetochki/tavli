@@ -87,16 +87,16 @@ void board::paintEvent(QPaintEvent *)
   QString s;
   static int paintCounter;
 
-  std::cout << ++paintCounter << std::endl;
+  //std::cout << ++paintCounter << std::endl;
   QPainter qpainter(this);
   qpainter.drawPixmap(0,0,m_pboard,0,0,width(),height());
   
-	int offsy=46;
-	int bottom=515;
+	int offsy=46-16;
+	int bottom=512+16;
 	if (m_gameType==Portes) {//Portes
 	
 	} else if (m_gameType==Plakoto) { //Plakoto
-		std::cout << "ok, it gets run..." << m_pboard.width() <<std::endl;
+		//std::cout << "ok, it gets run..." << m_pboard.width() <<std::endl;
 		bool capture;
 		int cy;
 		for(int j=0; j<5; ++j) {
