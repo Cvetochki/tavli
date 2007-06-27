@@ -234,7 +234,7 @@ Oh, and good luck...you&apos;ll actually need it ;-)
     <message>
         <location filename="mainwindow.cpp" line="56"/>
         <source>Listening on port #%1</source>
-        <translation>Ακούω στη θύρα #%1</translation>
+        <translation>Θα περιμένω σύνδεση στη θύρα #%1</translation>
     </message>
     <message>
         <location filename="mainwindow.cpp" line="252"/>
@@ -249,6 +249,14 @@ Programmed by Alkis &lt;a href=&quot;http://redlumf.blogspot.com&quot;&gt;here&l
         <location filename="mainwindow.cpp" line="102"/>
         <source>tavli</source>
         <translation>Τάβλι</translation>
+    </message>
+</context>
+<context>
+    <name>board</name>
+    <message>
+        <location filename="board.cpp" line="336"/>
+        <source>You are not currently in a game</source>
+        <translation>Δεν είστε σε παιχνίδι</translation>
     </message>
 </context>
 <context>

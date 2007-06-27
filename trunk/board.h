@@ -51,6 +51,7 @@ protected:
     virtual void resizeEvent ( QResizeEvent *re);
     void mousePressEvent ( QMouseEvent * e );
     void mouseReleaseEvent ( QMouseEvent * e );
+	
 
 private:
     QPoint 	mousepos;
@@ -72,6 +73,11 @@ private:
     int anBoard[2][25];
     GameType m_gameType;
 	SideToPlay m_sideToPlay;
-	
+	QTimer *m_timer;
+	int		m_boardMsgActive;
+	QString m_msg;
+
+private slots:
+	void boardMsgTimeOut();
 };
 #endif
