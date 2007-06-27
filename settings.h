@@ -7,3 +7,4 @@ class SettingsDialog : public QDialog, public Ui::settingsDlg
  public:
      SettingsDialog(QWidget *parent = 0);
 };
+
