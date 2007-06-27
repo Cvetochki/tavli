@@ -22,11 +22,13 @@
 #include <QCursor>
 #include <QDateTime>
 #include <QMouseEvent>
+#include <QTimer>
 
 #include <iostream>
 
 board::board(QWidget *parent)
-: QWidget(parent)
+: QWidget(parent),
+  m_boardMsgActive(0)
 {
 	m_sideToPlay=None;
 	m_d[0]=m_d[1]=-1;
@@ -55,6 +57,9 @@ board::board(QWidget *parent)
 	setFixedSize(700,600);
 	QResizeEvent foo(QSize(width(),height()),QSize(width(),height()));
 	resizeEvent(&foo);
+
+	m_timer = new QTimer(this);
+	connect(m_timer, SIGNAL(timeout()), this, SLOT(boardMsgTimeOut()));
 }
 
 
@@ -89,6 +94,7 @@ void board::paintEvent(QPaintEvent *)
 	static int paintCounter;
 
 	//std::cout << ++paintCounter << std::endl;
+	++paintCounter;
 	QPainter qpainter(this);
 	qpainter.drawPixmap(0,0,m_pboard,0,0,width(),height());
 
@@ -295,6 +301,25 @@ void board::paintEvent(QPaintEvent *)
 		qpainter.drawPixmap(610,300-16,m_dices[m_d[0]],0,0,width(),height());
 		qpainter.drawPixmap(610+48,300-16,m_dices[m_d[1]],0,0,width(),height());
 	}
+
+	if (m_boardMsgActive) {
+		QFont font("times", 24);
+		QFontMetrics fm(font);
+		int pixelsWide = fm.width(m_msg);
+		int pixelsHigh = fm.lineSpacing();// .height();
+		int x=(600-pixelsWide)/2;
+		int y=(height()-pixelsHigh)/2;
+		qpainter.setBrush(QColor(200, 200, 200, 200));
+		QPen mypen(QColor(255, 255, 255, 200));
+		mypen.setWidth(4);
+		qpainter.setPen( mypen );
+		qpainter.drawRect(x-10,y-10,pixelsWide+20,pixelsHigh+20);
+		qpainter.setFont(font);
+		qpainter.setPen( Qt::black );
+		qpainter.drawText(x+2,y+2+3*pixelsHigh/4,m_msg);
+		qpainter.setPen( Qt::white );
+		qpainter.drawText(x,y+3*pixelsHigh/4,m_msg);
+	}
 }
 
 
@@ -372,4 +397,15 @@ void board::resizeEvent ( QResizeEvent *re )
 
 void board::boardMsg(QString msg, int seconds)
 {
+    m_timer->start(seconds*1000);
+	m_boardMsgActive=1;
+	m_msg=msg;
+	update();
+}
+
+void board::boardMsgTimeOut()
+{
+	m_timer->stop();
+	m_boardMsgActive=0;
+	update();
 }
