@@ -41,6 +41,7 @@ public:
     void setGame(GameType n);
     void setBoard(int b[2][25]);
     void setRoll(int d1, int d2);
+	void boardMsg(QString msg,int seconds=4);
 
     ~board();
 
