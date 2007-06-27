@@ -34,7 +34,7 @@ class board : public QWidget
 {
 	Q_OBJECT
 public:
-	enum SideToPlay {White,Red};
+	enum SideToPlay {White,Red,None};
 	enum GameType {Portes, Plakoto, Fevga};
 	
     board(QWidget *parent = 0);
@@ -70,7 +70,7 @@ private:
 
     int anBoard[2][25];
     GameType m_gameType;
-
+	SideToPlay m_sideToPlay;
 	
 };
 #endif

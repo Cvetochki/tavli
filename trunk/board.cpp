@@ -1,22 +1,22 @@
 /***************************************************************************
- *   Copyright (C) 2005 by Alex Argiropoulos   *
- *   alkis_@hotmail.com   *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
- ***************************************************************************/
+*   Copyright (C) 2005 by Alex Argiropoulos   *
+*   alkis_@hotmail.com   *
+*                                                                         *
+*   This program is free software; you can redistribute it and/or modify  *
+*   it under the terms of the GNU General Public License as published by  *
+*   the Free Software Foundation; either version 2 of the License, or     *
+*   (at your option) any later version.                                   *
+*                                                                         *
+*   This program is distributed in the hope that it will be useful,       *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+*   GNU General Public License for more details.                          *
+*                                                                         *
+*   You should have received a copy of the GNU General Public License     *
+*   along with this program; if not, write to the                         *
+*   Free Software Foundation, Inc.,                                       *
+*   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+***************************************************************************/
 #include "board.h"
 #include <QPainter>
 #include <QCursor>
@@ -26,34 +26,35 @@
 #include <iostream>
 
 board::board(QWidget *parent)
-    : QWidget(parent)
+: QWidget(parent)
 {
+	m_sideToPlay=None;
 	m_d[0]=m_d[1]=-1;
-  m_showdrag=false;
-  mousepos=QPoint(0,0);
-  setMouseTracking (true);
-  if (m_iboard.load("images/board.png", 0))
-    std::cout << "Loaded image...\n" << std::endl;
-  else
-    std::cout << "Couldn't load image...\n" << std::endl;
+	m_showdrag=false;
+	mousepos=QPoint(0,0);
+	setMouseTracking (true);
+	if (m_iboard.load("images/board.png", 0))
+		std::cout << "Loaded image...\n" << std::endl;
+	else
+		std::cout << "Couldn't load image...\n" << std::endl;
 
-  //setPaletteBackgroundPixmap(bg);
-  m_iwhite.load("images/white_pawn.png");
-  m_ired.load("images/red_pawn.png");
+	//setPaletteBackgroundPixmap(bg);
+	m_iwhite.load("images/white_pawn.png");
+	m_ired.load("images/red_pawn.png");
 
-  //setBackgroundMode(NoBackground);
+	//setBackgroundMode(NoBackground);
 	setAutoFillBackground(false);
-  //mp.resize(32,32);
-  //mp.setMask(mp.createHeuristicMask());
+	//mp.resize(32,32);
+	//mp.setMask(mp.createHeuristicMask());
 
-  //QCursor c(mp);
-  
-  //setCursor(Qt::BlankCursor);
-  
-  //qpixmap=0;
-  setFixedSize(700,600);
-  QResizeEvent foo(QSize(width(),height()),QSize(width(),height()));
-  resizeEvent(&foo);
+	//QCursor c(mp);
+
+	//setCursor(Qt::BlankCursor);
+
+	//qpixmap=0;
+	setFixedSize(700,600);
+	QResizeEvent foo(QSize(width(),height()),QSize(width(),height()));
+	resizeEvent(&foo);
 }
 
 
@@ -66,7 +67,7 @@ void board::setBoard(int b[2][25])
 		anBoard[0][i]=b[0][i];
 		anBoard[1][i]=b[1][i];
 	}
-	
+
 	update();
 }
 
@@ -79,22 +80,22 @@ void board::setGame(GameType n)
 //#include "board.moc"
 
 /*!
-    \fn board::paintEvent(QPaintEvent *)
- */
+\fn board::paintEvent(QPaintEvent *)
+*/
 void board::paintEvent(QPaintEvent *)
 {
-  int t;
-  QString s;
-  static int paintCounter;
+	int t;
+	QString s;
+	static int paintCounter;
 
-  //std::cout << ++paintCounter << std::endl;
-  QPainter qpainter(this);
-  qpainter.drawPixmap(0,0,m_pboard,0,0,width(),height());
-  
+	//std::cout << ++paintCounter << std::endl;
+	QPainter qpainter(this);
+	qpainter.drawPixmap(0,0,m_pboard,0,0,width(),height());
+
 	int offsy=46-16;
 	int bottom=512+16;
 	if (m_gameType==Portes) {//Portes
-	
+
 	} else if (m_gameType==Plakoto) { //Plakoto
 		//std::cout << "ok, it gets run..." << m_pboard.width() <<std::endl;
 		bool capture;
@@ -192,11 +193,11 @@ void board::paintEvent(QPaintEvent *)
 						qpainter.drawPixmap(offsx+i*m_pawnsize,bottom,m_pred,0,0,width(),height());
 					}
 					if (j==0 && (t>=5) ) {
-						
+
 						s = QString::number( t+1 );
 						int tx=offsx+i*m_pawnsize+m_pawnsize/2-8;
 						int ty=bottom-cy+m_pawnsize/2+4;
-						
+
 						//qpainter.setPen( Qt::white );
 						//qpainter.drawText( tx+1, ty+1, s );
 						qpainter.setPen( Qt::black );
@@ -206,7 +207,7 @@ void board::paintEvent(QPaintEvent *)
 			}
 		}
 
-	
+
 	} else {	//Fevga
 		for(int j=0; j<5; ++j) {
 			int offsx=32;
@@ -247,11 +248,11 @@ void board::paintEvent(QPaintEvent *)
 						qpainter.drawPixmap(offsx+i*m_pawnsize,bottom-j*m_pawnsize,m_pwhite,0,0,width(),height());
 					}
 					if (j==0 && (t>5) ) {
-						
+
 						s = QString::number( t );
 						int tx=offsx+i*m_pawnsize+m_pawnsize/2-8;
 						int ty=bottom+m_pawnsize/2+4;
-						
+
 						//qpainter.setPen( Qt::white );
 						//qpainter.drawText( tx+1, ty+1, s );
 						qpainter.setPen( Qt::black );
@@ -260,7 +261,7 @@ void board::paintEvent(QPaintEvent *)
 				}
 			}
 		}
-	
+
 	}          
 	if (m_showdrag) {
 		anBoard[1][23]=14;
@@ -268,16 +269,16 @@ void board::paintEvent(QPaintEvent *)
 	}
 
 	qpainter.setPen( Qt::white );
-  	qpainter.drawText(10,10,"paintEvent #"+QString::number(paintCounter));
-  
-  	
+	qpainter.drawText(10,10,"paintEvent #"+QString::number(paintCounter));
+
+
 	QString dis="X: "+QString::number(mousepos.x()) + "  -  Y: "+QString::number(mousepos.y());
-  	qpainter.drawText(0,600-4,dis);
-	
+	qpainter.drawText(0,600-4,dis);
+
 	QPen mypen(QColor(180, 20, 20, 55));
 	mypen.setWidth(10);
-  	qpainter.setPen( mypen );
-	
+	qpainter.setPen( mypen );
+
 	//qpainter.setPen(QColor(255, 255, 255, 255));
 	qpainter.setBrush(QColor(255, 255, 0, 120));
 
@@ -289,7 +290,7 @@ void board::paintEvent(QPaintEvent *)
 	//painter->setBrush(Qt::NoBrush);
 	//painter->drawPolyline(m_points);
 	qpainter.drawLine(10,10,100,100);
-	
+
 	if (m_d[0]!=-1) {
 		qpainter.drawPixmap(610,300-16,m_dices[m_d[0]],0,0,width(),height());
 		qpainter.drawPixmap(610+48,300-16,m_dices[m_d[1]],0,0,width(),height());
@@ -298,29 +299,28 @@ void board::paintEvent(QPaintEvent *)
 
 
 /*!
-    \fn board::mouseMoveEvent(QMouseEvent *qmouseevent)
- */
+\fn board::mouseMoveEvent(QMouseEvent *qmouseevent)
+*/
 void board::mouseMoveEvent(QMouseEvent *qmouseevent)
 {
-  mousepos = qmouseevent->pos();
+	mousepos = qmouseevent->pos();
 
-  if (m_showdrag) {
-  	
-	update();
-  	//repaint();
-  }
+	if (m_showdrag) {
+
+		update();
+		//repaint();
+	}
 }
 
 
 void board::mousePressEvent ( QMouseEvent *)
 {
-	//QCursor c(m_pmp);//.setMask(m_pmp.createHeuristicMask()));
-	//setCursor(c);
-	
+	if (m_sideToPlay==None) {
+		boardMsg(tr("You are not currently in a game"));
+		return;
+	}
 	setCursor(Qt::BlankCursor);
 	m_showdrag=true;
-	
-
 	update();
 }
 
@@ -329,7 +329,7 @@ void board::mouseReleaseEvent ( QMouseEvent *)
 	m_showdrag=false;
 	anBoard[1][23]=15;
 	setCursor(Qt::ArrowCursor);
-	
+
 	update();
 }
 
@@ -344,7 +344,7 @@ void board::setRoll(int d1, int d2)
 void board::resizeEvent ( QResizeEvent *re )
 {
 	QImage tmp;
-	
+
 	int w=re->size().width();
 	int h=re->size().height();
 	std::cout << "W=" << w << " H=" << h << std::endl;
@@ -352,7 +352,7 @@ void board::resizeEvent ( QResizeEvent *re )
 	std::cout << "image width=" << tmp.width() << " image height=" << tmp.height() << std::endl;
 	m_pboard=QPixmap::fromImage(tmp);
 	std::cout << "pixmap width=" << m_pboard.width() << " pixmap height=" << m_pboard.height() << std::endl;
-	
+
 	m_pawnsize=42;
 	tmp=m_ired.scaled(m_pawnsize,m_pawnsize,Qt::KeepAspectRatio,Qt::SmoothTransformation);
 	m_pred=QPixmap::fromImage(tmp);
@@ -360,14 +360,16 @@ void board::resizeEvent ( QResizeEvent *re )
 	tmp=m_iwhite.scaled(m_pawnsize,m_pawnsize,Qt::KeepAspectRatio,Qt::SmoothTransformation);
 	m_pwhite=QPixmap::fromImage(tmp);
 	std::cout << "pixmap width=" << m_pwhite.width() << " pixmap height=" << m_pwhite.height() << std::endl;
-	
+
 	QString strdice;
 	for(int i=1; i<7; ++i) {
 		strdice=":/images/"+strdice.setNum(i)+".png";
 		m_dices[i]=QPixmap(strdice);
 	}
-	
+
 	update();
 }
 
-
+void board::boardMsg(QString msg, int seconds)
+{
+}
