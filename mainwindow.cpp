@@ -70,6 +70,7 @@ MainWindow::MainWindow()
 	msgDisplay->setReadOnly(true);
 	msgDisplay->setFocusPolicy(Qt::NoFocus);
 	msgDisplay->setTextInteractionFlags (Qt::LinksAccessibleByMouse);
+	msgDisplay->setMinimumWidth(300);
 	QHBoxLayout *mainLayout = new QHBoxLayout(center);
 	QVBoxLayout *secLayout = new QVBoxLayout(right);
 #if QT_VERSION >= 0x040300

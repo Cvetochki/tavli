@@ -281,6 +281,7 @@ void board::paintEvent(QPaintEvent *)
 	QString dis="X: "+QString::number(mousepos.x()) + "  -  Y: "+QString::number(mousepos.y());
 	qpainter.drawText(0,600-4,dis);
 
+	/*
 	QPen mypen(QColor(180, 20, 20, 55));
 	mypen.setWidth(10);
 	qpainter.setPen( mypen );
@@ -296,6 +297,7 @@ void board::paintEvent(QPaintEvent *)
 	//painter->setBrush(Qt::NoBrush);
 	//painter->drawPolyline(m_points);
 	qpainter.drawLine(10,10,100,100);
+	*/
 
 	if (m_d[0]!=-1) {
 		qpainter.drawPixmap(610,300-16,m_dices[m_d[0]],0,0,width(),height());
@@ -317,6 +319,8 @@ void board::paintEvent(QPaintEvent *)
 		qpainter.setFont(font);
 		qpainter.setPen( Qt::black );
 		qpainter.drawText(x+2,y+2+3*pixelsHigh/4,m_msg);
+		//QPen mytextpen(QColor(255, 255, 255, 100));
+		//qpainter.setPen( mytextpen );
 		qpainter.setPen( Qt::white );
 		qpainter.drawText(x,y+3*pixelsHigh/4,m_msg);
 	}
