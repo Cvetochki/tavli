@@ -100,6 +100,7 @@ private:
     QLineEdit *msgInput;
 	QTextEdit *msgDisplay;
 	quint16	m_blockSize;
+	int		m_activeConnection;
 };
 
 #endif

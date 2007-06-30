@@ -33,7 +33,8 @@
 #include <iostream>
 
 MainWindow::MainWindow()
-	:m_blockSize(0)
+	:m_blockSize(0),
+	m_activeConnection(0)
 {
     m_board = new board(this);
 	m_server = new QTcpServer(this);
@@ -122,6 +123,7 @@ void MainWindow::gotConnection(void)
 		NetSend("Bonjour!\n");
 		msgInput->show();
 		connect(msgInput,SIGNAL(returnPressed()),this,SLOT(sendNetMsg()));
+		m_activeConnection=1;
 	}
 }
 
@@ -153,7 +155,7 @@ void MainWindow::NetSend(QString str)
      out << (quint16)(block.size() - sizeof(quint16));
 	 m_client->write(block);
 	 m_client->flush();
-	 std::cout << "Sent \"" << str.data() <<"\"" << std::endl;
+	 //std::cout << "Sent \"" << str.data() <<"\"" << std::endl;
 }
 
 void MainWindow::readNet(void)
@@ -177,6 +179,7 @@ void MainWindow::lostConnection(void)
 	m_client->deleteLater();
 	QMessageBox::about(this, tr("Lost connection"),
             tr("Yeap, I <b>lost</b> it."));
+	m_activeConnection=0;
 }
 
 
@@ -203,6 +206,8 @@ void MainWindow::newFile()
 {
     SettingsDialog foo(this);
 	if (foo.exec()==QDialog::Accepted) {
+		int n=foo.matchLength->value();
+		QString name=foo.player1Name->text();
 		std::cout << "Accepted" <<std::endl;
 		msgInput->show();
 		msgDisplay->append(foo.remoteIP->text());
@@ -213,6 +218,7 @@ void MainWindow::newFile()
 		connect(m_client,SIGNAL(readyRead()), this, SLOT(readNet()));
 		connect(m_client,SIGNAL(disconnected()),this,SLOT(lostConnection()));
 		connect(msgInput,SIGNAL(returnPressed()),this,SLOT(sendNetMsg()));
+		m_activeConnection=1;
 	} else
 		std::cout << "Not Accepted" <<std::endl;
 }
@@ -383,20 +389,18 @@ void MainWindow::writeSettings()
 
 bool MainWindow::maybeSave()
 {
-	/*
-    if (msgDisplay->document()->isModified()) {
+	
+    if (m_activeConnection) {
         QMessageBox::StandardButton ret;
-        ret = QMessageBox::warning(this, tr("Application"),
-                     tr("The document has been modified.\n"
-                        "Do you want to save your changes?"),
-                     QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
-        if (ret == QMessageBox::Save)
-            return save();
-        else if (ret == QMessageBox::Cancel)
+        ret = QMessageBox::warning(this, tr("Tavli"),
+                     tr("You are currently connected.\n"
+                        "Do you really want to quit?"),
+                     QMessageBox::Yes | QMessageBox::Cancel);
+        if (ret == QMessageBox::Yes)
+            return true;
+        else 
             return false;
     }
-	*/
-    return true;
 }
 
 void MainWindow::loadFile(const QString &)//fileName)
