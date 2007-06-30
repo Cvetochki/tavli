@@ -36,6 +36,9 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="maxLength" >
+           <number>32</number>
+          </property>
          </widget>
         </item>
        </layout>
@@ -59,7 +62,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QSpinBox" name="spinBox" >
+         <widget class="QSpinBox" name="matchLength" >
           <property name="toolTip" >
            <string>Choose the length of the match in points</string>
           </property>

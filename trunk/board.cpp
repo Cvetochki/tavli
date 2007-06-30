@@ -342,8 +342,20 @@ void board::mouseMoveEvent(QMouseEvent *qmouseevent)
 }
 
 
-void board::mousePressEvent ( QMouseEvent *)
+void board::wheelEvent ( QWheelEvent * ev )
 {
+	int numDegrees = ev->delta() / 8;
+    int numSteps = numDegrees / 15;
+	QString msg=QString::number(numSteps);
+	boardMsg(msg);
+
+}
+void board::mousePressEvent ( QMouseEvent *me)
+{
+	if (me->button()==Qt::RightButton) {
+		boardMsg("We could roll the dice here...");
+		return;
+	}
 	if (m_sideToPlay==None) {
 		boardMsg(tr("You are not currently in a game"));
 		return;
