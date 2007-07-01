@@ -26,7 +26,7 @@
 #include <QHostAddress>
 
 
-#include "board.h"
+
 #include "mainwindow.h"
 #include "settings.h"
 
@@ -89,6 +89,8 @@ MainWindow::MainWindow()
 	setWindowIcon(QIcon(":/images/tavli.png"));
     
     setCentralWidget(center);
+	QString boardID=getPositionID(board::Plakoto,m_anBoard);
+	msgDisplay->append(boardID);
 	msgDisplay->append("$Revision$");
 	msgDisplay->append(tr("Welcome to Tavli\nOh, and good luck...you'll actually need it ;-)\n"));
 	//msgDisplay->append("http://redlumf.blogspot.com");
@@ -186,12 +188,16 @@ void MainWindow::lostConnection(void)
 
 void MainWindow::createBoard(void)
 {
-	int b[2][25];
 	for(int i=0; i<25; ++i)
-		b[0][i]=b[1][i]=0;
-	b[0][23]=b[1][23]=15;
-	m_board->setBoard(b);
+		m_anBoard[0][i]=m_anBoard[1][i]=0;
+	//m_anBoard[0][23]=m_anBoard[1][23]=15;
+	m_anBoard[0][5]=m_anBoard[1][5]=5;
+	m_anBoard[0][7]=m_anBoard[1][7]=3;
+	m_anBoard[0][12]=m_anBoard[1][12]=5;
+	m_anBoard[0][23]=m_anBoard[1][23]=2;
+	m_board->setBoard(m_anBoard);
 	m_board->setGame(board::Plakoto);
+	
 }
 void MainWindow::closeEvent(QCloseEvent *event)
 {
@@ -480,3 +486,58 @@ void MainWindow::roll()
 }
 
 
+QString MainWindow::getPositionID(board::GameType game,int board[2][25])
+{
+	QString str="";
+
+	if (game==board::Plakoto) {
+		for(int j=0; j<2; ++j)
+			for(int i=0; i<25; ++i) {
+				int t=board[j][i];
+				if (t>64) t-=63; // this is -64+1
+				while(t--)
+					str+="1";
+				str+="0";
+			}
+	}
+	msgDisplay->append(str);
+	int len=str.length();
+	while(len%8) {
+		str+="0";
+		++len;
+	}
+
+	if (len%8)
+		len=len/8+1;
+	else
+		len=len/8;
+	QByteArray ar(len,0);
+	
+	int start=0;
+	int end=str.length();
+	unsigned char c;
+	int i;
+	int pos=0;
+	QString rev="";
+	QString hex="";
+	do {
+		i=c=0;
+		while(i<8) {
+			if (str[start+7-i]=='1')
+				c|=1<<(7-i);
+			rev+=str[start+7-i];
+			++i;
+		}
+		rev+=" ";
+		QString tmp;
+		tmp.sprintf("%0.2X",c);
+		hex+=tmp+" ";
+		ar[pos++]=c;
+		start+=8;
+	} while(start<end);
+	msgDisplay->append(rev);
+	msgDisplay->append(hex);
+	rev=ar.toBase64();
+	rev=rev.left(rev.length()-2);
+	return rev;
+}
