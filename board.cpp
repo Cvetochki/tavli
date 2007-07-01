@@ -368,7 +368,7 @@ void board::mousePressEvent ( QMouseEvent *me)
 void board::mouseReleaseEvent ( QMouseEvent *)
 {
 	m_showdrag=false;
-	anBoard[1][23]=15;
+	//anBoard[1][23]=15;
 	setCursor(Qt::ArrowCursor);
 
 	update();
