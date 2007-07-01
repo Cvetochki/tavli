@@ -25,6 +25,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "board.h"
 
 class QVBoxLayout;
 class QAction;
@@ -34,7 +35,7 @@ class QLineEdit;
 class QTcpServer;
 class QTcpSocket;
 
-class board;
+//class board;
 
 
 class MainWindow : public QMainWindow
@@ -75,8 +76,10 @@ private:
     bool saveFile(const QString &fileName);
     void setCurrentFile(const QString &fileName);
     QString strippedName(const QString &fullFileName);
+	QString getPositionID(board::GameType game,int board[2][25]);
 
     board *m_board;
+	int    m_anBoard[2][25];
     QTcpServer *m_server;
 	QTcpSocket *m_client;
     QString curFile;
