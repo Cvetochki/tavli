@@ -120,7 +120,7 @@ void MainWindow::gotConnection(void)
 		m_client->disconnectFromHost();
 		m_client->deleteLater();
 	} else {
-		NetSend("Bonjour!\n");
+		//NetSend("Bonjour!\n");
 		msgInput->show();
 		connect(msgInput,SIGNAL(returnPressed()),this,SLOT(sendNetMsg()));
 		m_activeConnection=1;
@@ -214,11 +214,12 @@ void MainWindow::newFile()
 		m_client= new QTcpSocket(this);
 		connect(m_client,SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(socketError()));
 		m_client->connectToHost(foo.remoteIP->text(),1971);
-		m_client->waitForConnected();
-		connect(m_client,SIGNAL(readyRead()), this, SLOT(readNet()));
-		connect(m_client,SIGNAL(disconnected()),this,SLOT(lostConnection()));
-		connect(msgInput,SIGNAL(returnPressed()),this,SLOT(sendNetMsg()));
-		m_activeConnection=1;
+		if (m_client->waitForConnected()) {
+			connect(m_client,SIGNAL(readyRead()), this, SLOT(readNet()));
+			connect(m_client,SIGNAL(disconnected()),this,SLOT(lostConnection()));
+			connect(msgInput,SIGNAL(returnPressed()),this,SLOT(sendNetMsg()));
+			m_activeConnection=1;
+		}
 	} else
 		std::cout << "Not Accepted" <<std::endl;
 }
@@ -255,7 +256,7 @@ void MainWindow::about()
 {
    QMessageBox::about(this, tr("About Tavli"),
             tr("An application to play the three greek variations "
-               "of backgammon.\n\n"
+               "of backgammon.\n\n$Rev$"
                "Programmed by Alkis <a href=\"http://redlumf.blogspot.com\">here</a>"));
                //"Programmed by Alkis http://redlumf.blogspot.com"));
 }
@@ -373,7 +374,7 @@ void MainWindow::createStatusBar()
 
 void MainWindow::readSettings()
 {
-    QSettings settings("Trolltech", "Application Example");
+    QSettings settings("Alkis", "Tavli");
     QPoint pos = settings.value("pos", QPoint(200, 200)).toPoint();
     QSize size = settings.value("size", QSize(400, 400)).toSize();
     resize(size);
@@ -382,7 +383,7 @@ void MainWindow::readSettings()
 
 void MainWindow::writeSettings()
 {
-    QSettings settings("Trolltech", "Application Example");
+    QSettings settings("Alkis", "Tavli");
     settings.setValue("pos", pos());
     settings.setValue("size", size());
 }
