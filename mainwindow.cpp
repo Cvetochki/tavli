@@ -89,6 +89,7 @@ MainWindow::MainWindow()
 	setWindowIcon(QIcon(":/images/tavli.png"));
     
     setCentralWidget(center);
+	msgDisplay->append("$Revision$");
 	msgDisplay->append(tr("Welcome to Tavli\nOh, and good luck...you'll actually need it ;-)\n"));
 	//msgDisplay->append("http://redlumf.blogspot.com");
 	//msgDisplay->append("<a href=\"http://en.wikipedia.org/wiki/Cognate\"><span style=\" text-decoration: underline; color:#0000ff;\">cognate</span></a>");
@@ -256,7 +257,7 @@ void MainWindow::about()
 {
    QMessageBox::about(this, tr("About Tavli"),
             tr("An application to play the three greek variations "
-               "of backgammon.\n\n$Revision$  -"
+               "of backgammon.\n\n"
                "Programmed by Alkis <a href=\"http://redlumf.blogspot.com\">here</a>"));
                //"Programmed by Alkis http://redlumf.blogspot.com"));
 }
