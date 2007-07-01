@@ -305,7 +305,7 @@ void board::paintEvent(QPaintEvent *)
 	}
 
 	if (m_boardMsgActive) {
-		QFont font("times", 24);
+		QFont font("arial", 24);
 		QFontMetrics fm(font);
 		int pixelsWide = fm.width(m_msg);
 		int pixelsHigh = fm.lineSpacing();// .height();
