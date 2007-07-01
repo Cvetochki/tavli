@@ -403,6 +403,7 @@ bool MainWindow::maybeSave()
         else 
             return false;
     }
+	return true;
 }
 
 void MainWindow::loadFile(const QString &)//fileName)
