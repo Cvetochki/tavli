@@ -158,16 +158,6 @@ p, li { white-space: pre-wrap; }
         <item>
          <widget class="QLineEdit" name="remoteIP" />
         </item>
-        <item>
-         <widget class="QPushButton" name="pushButton" >
-          <property name="text" >
-           <string>Connect</string>
-          </property>
-          <property name="icon" >
-           <iconset resource="tavli.qrc" >:/images/kontact_contacts.png</iconset>
-          </property>
-         </widget>
-        </item>
        </layout>
       </item>
       <item>
