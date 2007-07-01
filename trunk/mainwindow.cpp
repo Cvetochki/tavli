@@ -256,7 +256,7 @@ void MainWindow::about()
 {
    QMessageBox::about(this, tr("About Tavli"),
             tr("An application to play the three greek variations "
-               "of backgammon.\n\n$Rev$"
+               "of backgammon.\n\n$Revision$  -"
                "Programmed by Alkis <a href=\"http://redlumf.blogspot.com\">here</a>"));
                //"Programmed by Alkis http://redlumf.blogspot.com"));
 }
