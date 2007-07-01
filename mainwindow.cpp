@@ -217,10 +217,13 @@ void MainWindow::newFile()
 		QString name=foo.player1Name->text();
 		std::cout << "Accepted" <<std::endl;
 		msgInput->show();
-		msgDisplay->append(foo.remoteIP->text());
+		QString rIP=foo.remoteIP->text();
+		msgDisplay->append(rIP);
+		if (rIP.isEmpty())
+			return;
 		m_client= new QTcpSocket(this);
 		connect(m_client,SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(socketError()));
-		m_client->connectToHost(foo.remoteIP->text(),1971);
+		m_client->connectToHost(rIP,1971);
 		if (m_client->waitForConnected()) {
 			connect(m_client,SIGNAL(readyRead()), this, SLOT(readNet()));
 			connect(m_client,SIGNAL(disconnected()),this,SLOT(lostConnection()));
@@ -539,4 +542,9 @@ QString MainWindow::getPositionID(board::GameType game,int board[2][25])
 	rev=ar.toBase64();
 	rev=rev.left(rev.length()-2);
 	return rev;
+}
+
+void MainWindow::setBoardFromPositionID(QString positionID)
+{
+
 }

@@ -77,6 +77,7 @@ private:
     void setCurrentFile(const QString &fileName);
     QString strippedName(const QString &fullFileName);
 	QString getPositionID(board::GameType game,int board[2][25]);
+	void setBoardFromPositionID(QString positionID);
 
     board *m_board;
 	int    m_anBoard[2][25];
