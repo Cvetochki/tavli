@@ -105,6 +105,7 @@ MainWindow::MainWindow()
 	msgDisplay->ensureCursorVisible ();
 	msgInput->hide();
 	setWindowTitle(tr("tavli"));
+	setBoardFromPositionID("dummy");
 }
 
 void MainWindow::gotConnection(void)
@@ -544,22 +545,58 @@ QString MainWindow::getPositionID(board::GameType game,int board[2][25])
 	rev=rev.left(rev.length()-2);
 	return rev;
 }
-
+//4HPwATDgc/ABMA
 void MainWindow::setBoardFromPositionID(QString positionID)
 {
-	QString enc;
-	positionID+="==";
-	enc.fromBase64(positionID);
-	//estw ar to bytearray 
-	int pos=0;
+	//QByteArray ar = QByteArray::fromBase64("4HPwATDgc/ABMA");
+	
+	QByteArray ar = QByteArray::fromBase64("XwAAgPceAAAAAA");
+
+	int size=ar.size();
 	QString str="";
-	while(pos<size) {
-		unsigned char c=ar[pos];
-		for(int i=0; i<8; ++i) {
-			if (c & 1<<i)
+	for (int byte=0; byte<size; ++byte) {
+		unsigned char c=ar[byte];
+		for(int bit=0; bit<8; ++bit)
+			if (c & 1<<bit)
 				str+="1";
 			else
 				str+="0";
-		}
+		//str+=" ";
 	}
+	msgDisplay->append("Decoding:\n"+str);
+
+	for(int j=0; j<2; ++j)
+		for(int i=0; i<25; ++i)
+			m_anBoard[j][i]=0;
+
+//	if (game==board::Plakoto) {
+		int side=0;
+		int index=0;
+		int pos=0;
+		int count=0;
+		while(1) {
+			while(str[pos]=='0') {
+				pos++;
+				m_anBoard[side][index++]=0;
+				if (index==25) {
+					index=0;
+					if (side==1) goto done;
+					side=1;
+				}
+			}
+			
+			count=0;
+			while(str[pos++]=='1')
+				++count;
+			//pos++;
+			m_anBoard[side][index++]=count;
+			if (index==25) {
+				index=0;
+				if (side==1) goto done;
+				side=1;
+			}
+		}
+done:		
+//	}
+	m_board->setBoard(m_anBoard);
 }
