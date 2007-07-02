@@ -547,5 +547,19 @@ QString MainWindow::getPositionID(board::GameType game,int board[2][25])
 
 void MainWindow::setBoardFromPositionID(QString positionID)
 {
-
+	QString enc;
+	positionID+="==";
+	enc.fromBase64(positionID);
+	//estw ar to bytearray 
+	int pos=0;
+	QString str="";
+	while(pos<size) {
+		unsigned char c=ar[pos];
+		for(int i=0; i<8; ++i) {
+			if (c & 1<<i)
+				str+="1";
+			else
+				str+="0";
+		}
+	}
 }
