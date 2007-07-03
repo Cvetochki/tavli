@@ -1,8 +1,14 @@
-#pragma once
+#ifndef NETWORK_H
+#define NETWORK_H
 
-class Network
+#include <QObject>
+
+class Network: public QObject
 {
+	Q_OBJECT
 public:
 	Network(void);
 	~Network(void);
 };
+
+#endif

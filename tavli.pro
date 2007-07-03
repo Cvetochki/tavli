@@ -9,8 +9,8 @@ DEPENDPATH += . debug
 INCLUDEPATH += .
 
 # Input
-HEADERS += board.h mainwindow.h player.h settings.h
+HEADERS += board.h mainwindow.h player.h settings.h Network.h
 FORMS += settings.ui
-SOURCES += board.cpp main.cpp mainwindow.cpp player.cpp settings.cpp
+SOURCES += board.cpp main.cpp mainwindow.cpp player.cpp settings.cpp Network.cpp
 RESOURCES += tavli.qrc
 TRANSLATIONS += tavli_el.ts
