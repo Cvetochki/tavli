@@ -32,8 +32,7 @@ class QAction;
 class QMenu;
 class QTextEdit;
 class QLineEdit;
-class QTcpServer;
-class QTcpSocket;
+class Network;
 
 //class board;
 
@@ -55,12 +54,11 @@ private slots:
     bool saveAs();
     void about();
     void documentWasModified();
-    void NetSend(QString str);
-    void readNet(void);
-    void socketError();
+
+    void socketError(QString str);
 	void gotConnection();
 	void sendNetMsg();
-	void lostConnection();
+	void rcvMsg(QString str);
 	void roll();
 	
 private:
@@ -81,8 +79,8 @@ private:
 
     board *m_board;
 	int    m_anBoard[2][25];
-    QTcpServer *m_server;
-	QTcpSocket *m_client;
+
+	Network *m_network;
     QString curFile;
 
 	QVBoxLayout *mainLayout;
@@ -103,7 +101,7 @@ private:
     QAction *aboutQtAct;
     QLineEdit *msgInput;
 	QTextEdit *msgDisplay;
-	quint16	m_blockSize;
+	
 	int		m_activeConnection;
 };
 

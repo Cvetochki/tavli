@@ -21,40 +21,30 @@
 **
 ****************************************************************************/
 #include <QtGui>
-#include <QTcpServer>
-#include <QTcpSocket>
-#include <QHostAddress>
+
 
 
 
 #include "mainwindow.h"
+#include "Network.h"
 #include "settings.h"
 
 #include <iostream>
 
 MainWindow::MainWindow()
-	:m_blockSize(0),
-	m_activeConnection(0)
+	:m_activeConnection(0)
 {
     m_board = new board(this);
-	m_server = new QTcpServer(this);
-	int port=1971;
-	while(!m_server->listen(QHostAddress::Any,port)) {
-		std::cerr << "Can't listen on port #" <<port<<std::endl;
-		++port;
-	}
-	
-	
-	connect(m_server,SIGNAL(newConnection()),this,SLOT(gotConnection()));
+	m_network = new Network(this);
+	connect(m_network,SIGNAL(NetworkError(QString)),this,SLOT(socketError(QString)));
+	connect(m_network,SIGNAL(NetworkRcvMsg(QString)),this,SLOT(rcvMsg(QString)));
+	connect(m_network,SIGNAL(connectedAsServer()),this,SLOT(gotConnection()));
 	createBoard();
-	
-    
-
     createActions();
     createMenus();
     createToolBars();
     createStatusBar();
-	statusBar()->showMessage(tr("Listening on port #%1").arg(port), 10000);
+	statusBar()->showMessage(tr("Listening on port #%1").arg(m_network->m_listeningPort), 10000);
 	
     readSettings();
 
@@ -110,31 +100,21 @@ MainWindow::MainWindow()
 
 void MainWindow::gotConnection(void)
 {
-	m_client=m_server->nextPendingConnection();
-	connect(m_client,SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(socketError()));
-	connect(m_client,SIGNAL(readyRead()), this, SLOT(readNet()));
-	connect(m_client,SIGNAL(disconnected()),this,SLOT(lostConnection()));
-	QMessageBox::StandardButton ret;
-	ret = QMessageBox::warning(this, tr("Tavli"),
-					tr("A remote host (at %1) is trying to connect...\n"
-					"Do you want to allow connection?").arg(m_client->peerAddress().toString()),
-					QMessageBox::Yes | QMessageBox::No);
-	if (ret != QMessageBox::Yes) {
-	    disconnect(m_client, 0, 0, 0);
-		m_client->disconnectFromHost();
-		m_client->deleteLater();
-	} else {
-		//NetSend("Bonjour!\n");
-		msgInput->show();
-		connect(msgInput,SIGNAL(returnPressed()),this,SLOT(sendNetMsg()));
-		m_activeConnection=1;
-	}
+	msgInput->show();
+	connect(msgInput,SIGNAL(returnPressed()),this,SLOT(sendNetMsg()));
+	m_activeConnection=1;
 }
 
-void MainWindow::socketError()
+void MainWindow::socketError(QString str)
 {
-	msgDisplay->append(m_client->errorString());
+	msgDisplay->append(str);
 }
+
+void MainWindow::rcvMsg(QString str)
+{
+	msgDisplay->append(str);
+}
+
 void MainWindow::sendNetMsg(void)
 {
 	static QString str;
@@ -142,49 +122,12 @@ void MainWindow::sendNetMsg(void)
 		return;
 	str=msgInput->text();
 	//str+="\n";
-	NetSend(str);//+"\n");
+	m_network->netSend(str);//+"\n");
 	msgInput->setText("");
 	str="You say: "+str;
 	msgDisplay->append(str);
 }
 
-void MainWindow::NetSend(QString str)
-{
-	 QByteArray block;
-     QDataStream out(&block, QIODevice::WriteOnly);
-     out.setVersion(QDataStream::Qt_4_0);
-     out << (quint16)0;
-     out << str;
-     out.device()->seek(0);
-     out << (quint16)(block.size() - sizeof(quint16));
-	 m_client->write(block);
-	 m_client->flush();
-	 //std::cout << "Sent \"" << str.data() <<"\"" << std::endl;
-}
-
-void MainWindow::readNet(void)
-{
-	QDataStream in(m_client);
-	in.setVersion(QDataStream::Qt_4_0);
-	if (m_blockSize == 0) {
-         if (m_client->bytesAvailable() < (int)sizeof(quint16))
-             return;
-         in >> m_blockSize;
-     }
-     if (m_client->bytesAvailable() < m_blockSize)
-         return;
-     QString str;
-     in >> str;
-     msgDisplay->append(str);
-	 m_blockSize=0;
-}
-void MainWindow::lostConnection(void)
-{
-	m_client->deleteLater();
-	QMessageBox::about(this, tr("Lost connection"),
-            tr("Yeap, I <b>lost</b> it."));
-	m_activeConnection=0;
-}
 
 
 void MainWindow::createBoard(void)
@@ -222,12 +165,8 @@ void MainWindow::newFile()
 		msgDisplay->append(rIP);
 		if (rIP.isEmpty())
 			return;
-		m_client= new QTcpSocket(this);
-		connect(m_client,SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(socketError()));
-		m_client->connectToHost(rIP,1971);
-		if (m_client->waitForConnected()) {
-			connect(m_client,SIGNAL(readyRead()), this, SLOT(readNet()));
-			connect(m_client,SIGNAL(disconnected()),this,SLOT(lostConnection()));
+		m_network->connectTo(rIP);
+		if (m_network->m_connected) {
 			connect(msgInput,SIGNAL(returnPressed()),this,SLOT(sendNetMsg()));
 			m_activeConnection=1;
 		}
