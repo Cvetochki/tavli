@@ -53,8 +53,7 @@ void Network::gotConnection(void)
 		m_client->deleteLater();
 	} else {
 		emit connectedAsServer();
-//		msgInput->show();
-//		connect(msgInput,SIGNAL(returnPressed()),this,SLOT(sendNetMsg()));
+
 		m_activeConnection=1;
 	}
 }
