@@ -24,6 +24,7 @@
 #include <QImage>
 #include <QPixmap>
 
+class Network;
 
 /**
 This is the widget that implement the board (Tavliera)
@@ -38,6 +39,7 @@ public:
 	enum GameType {Portes, Plakoto, Fevga};
 	
     board(QWidget *parent = 0);
+	void setNetwork(Network *network);
     void setGame(GameType n);
     void setBoard(int b[2][25]);
     void setRoll(int d1, int d2);
@@ -55,8 +57,10 @@ protected:
 	
 
 private:
+	Network *m_network;
     QPoint 	mousepos;
     bool	m_showdrag;
+	bool	m_netmove;
     int		m_pawnsize;
     QImage  m_iboard;
     QPixmap m_pboard;
@@ -80,5 +84,9 @@ private:
 
 private slots:
 	void boardMsgTimeOut();
+	void netMove(int x, int y);
+
+signals:
+	void Log(QString str);
 };
 #endif

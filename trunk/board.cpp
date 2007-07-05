@@ -18,6 +18,7 @@
 *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
 ***************************************************************************/
 #include "board.h"
+#include "Network.h"
 #include <QPainter>
 #include <QCursor>
 #include <QDateTime>
@@ -28,7 +29,8 @@
 
 board::board(QWidget *parent)
 : QWidget(parent),
-  m_boardMsgActive(0)
+  m_boardMsgActive(0),
+  m_netmove(false)
 {
 	m_sideToPlay=None;
 	m_d[0]=m_d[1]=-1;
@@ -36,9 +38,9 @@ board::board(QWidget *parent)
 	mousepos=QPoint(0,0);
 	setMouseTracking (true);
 	if (m_iboard.load("images/board.png", 0))
-		std::cout << "Loaded image...\n" << std::endl;
+		emit Log("Loaded image...\n");
 	else
-		std::cout << "Couldn't load image...\n" << std::endl;
+		emit Log("Couldn't load image...\n");
 
 	//setPaletteBackgroundPixmap(bg);
 	m_iwhite.load("images/white_pawn.png");
@@ -65,6 +67,11 @@ board::board(QWidget *parent)
 
 board::~board()
 {}
+
+void board::setNetwork(Network *net)
+{
+	m_network=net;
+}
 
 void board::setBoard(int b[2][25])
 {
@@ -269,7 +276,7 @@ void board::paintEvent(QPaintEvent *)
 		}
 
 	}          
-	if (m_showdrag) {
+	if (m_showdrag || m_netmove) {
 		anBoard[1][23]=14;
 		qpainter.drawPixmap(mousepos.x()-m_pawnsize/2,mousepos.y()-m_pawnsize/2,m_pred);//,0,0,width(),height());
 	}
@@ -326,16 +333,25 @@ void board::paintEvent(QPaintEvent *)
 	}
 }
 
+void board::netMove(int x, int y)
+{
+	m_netmove=true;
+	mousepos.setX(x);
+	mousepos.setY(y);
+	update();
+}
 
 /*!
 \fn board::mouseMoveEvent(QMouseEvent *qmouseevent)
 */
 void board::mouseMoveEvent(QMouseEvent *qmouseevent)
 {
-	mousepos = qmouseevent->pos();
+	
 
 	if (m_showdrag) {
-
+		mousepos = qmouseevent->pos();
+		if (m_network)
+			m_network->netSendMovingPawn(mousepos.x(),mousepos.y());
 		update();
 		//repaint();
 	}
@@ -356,10 +372,12 @@ void board::mousePressEvent ( QMouseEvent *me)
 		boardMsg("We could roll the dice here...");
 		return;
 	}
+	/*
 	if (m_sideToPlay==None) {
 		boardMsg(tr("You are not currently in a game"));
 		return;
 	}
+	*/
 	setCursor(Qt::BlankCursor);
 	m_showdrag=true;
 	update();

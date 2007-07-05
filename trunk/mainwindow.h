@@ -55,9 +55,10 @@ private slots:
     void about();
     void documentWasModified();
 
+	void LogMsg(QString str);
     void socketError(QString str);
 	void gotConnection();
-	void sendNetMsg();
+	void sendTextMsg();
 	void rcvMsg(QString str);
 	void roll();
 	

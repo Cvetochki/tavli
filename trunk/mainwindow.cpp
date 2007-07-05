@@ -35,10 +35,18 @@ MainWindow::MainWindow()
 	:m_activeConnection(0)
 {
     m_board = new board(this);
+	connect(m_board,SIGNAL(Log(QString)),this,SLOT(LogMsg(QString)));
+	
 	m_network = new Network(this);
+	m_board->setNetwork(m_network);
 	connect(m_network,SIGNAL(NetworkError(QString)),this,SLOT(socketError(QString)));
 	connect(m_network,SIGNAL(NetworkRcvMsg(QString)),this,SLOT(rcvMsg(QString)));
+	connect(m_network,SIGNAL(NetMovingPawn(int,int)),m_board,SLOT(netMove(int,int)));
 	connect(m_network,SIGNAL(connectedAsServer()),this,SLOT(gotConnection()));
+
+	
+	
+
 	createBoard();
     createActions();
     createMenus();
@@ -95,18 +103,26 @@ MainWindow::MainWindow()
 	msgDisplay->ensureCursorVisible ();
 	msgInput->hide();
 	setWindowTitle(tr("tavli"));
-	setBoardFromPositionID("dummy");
+	//setBoardFromPositionID("dummy");
 }
 
 void MainWindow::gotConnection(void)
 {
 	msgInput->show();
-	connect(msgInput,SIGNAL(returnPressed()),this,SLOT(sendNetMsg()));
+	connect(msgInput,SIGNAL(returnPressed()),this,SLOT(sendTextMsg()));
 	m_activeConnection=1;
 }
 
+void MainWindow::LogMsg(QString str)
+{
+	QColor oldcolor=msgDisplay->textColor();
+	msgDisplay->setTextColor(QColor(255,0,0));
+	msgDisplay->append(str);
+	msgDisplay->setTextColor(oldcolor);
+}
 void MainWindow::socketError(QString str)
 {
+	msgDisplay->setTextColor(QColor(rand()%255,rand()%255,rand()%255));
 	msgDisplay->append(str);
 }
 
@@ -115,14 +131,14 @@ void MainWindow::rcvMsg(QString str)
 	msgDisplay->append(str);
 }
 
-void MainWindow::sendNetMsg(void)
+void MainWindow::sendTextMsg(void)
 {
 	static QString str;
 	if (msgInput->text()=="")
 		return;
 	str=msgInput->text();
 	//str+="\n";
-	m_network->netSend(str);//+"\n");
+	m_network->netSendText(str);//+"\n");
 	msgInput->setText("");
 	str="You say: "+str;
 	msgDisplay->append(str);
@@ -134,11 +150,15 @@ void MainWindow::createBoard(void)
 {
 	for(int i=0; i<25; ++i)
 		m_anBoard[0][i]=m_anBoard[1][i]=0;
-	//m_anBoard[0][23]=m_anBoard[1][23]=15;
+	m_anBoard[0][23]=m_anBoard[1][23]=15;
+
+	/*
+	//Portes
 	m_anBoard[0][5]=m_anBoard[1][5]=5;
 	m_anBoard[0][7]=m_anBoard[1][7]=3;
 	m_anBoard[0][12]=m_anBoard[1][12]=5;
 	m_anBoard[0][23]=m_anBoard[1][23]=2;
+	*/
 	m_board->setBoard(m_anBoard);
 	m_board->setGame(board::Plakoto);
 	
@@ -167,7 +187,7 @@ void MainWindow::newFile()
 			return;
 		m_network->connectTo(rIP);
 		if (m_network->m_connected) {
-			connect(msgInput,SIGNAL(returnPressed()),this,SLOT(sendNetMsg()));
+			connect(msgInput,SIGNAL(returnPressed()),this,SLOT(sendTextMsg()));
 			m_activeConnection=1;
 		}
 	} else
