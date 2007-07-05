@@ -354,14 +354,17 @@ void board::netMove(int x, int y)
 void board::mouseMoveEvent(QMouseEvent *qmouseevent)
 {
 	static int send=0;
+	static int c=0;
 
 	if (m_showdrag) {
 		mousepos = qmouseevent->pos();
 		if (m_network) {
-			m_network->netSendMovingPawn(mousepos.x(),mousepos.y());
-			QString str=QString::number(++send);
-			str+=" packet sent.";
-			emit Log(str);
+			if (!(++c%2)) {
+				m_network->netSendMovingPawn(mousepos.x(),mousepos.y());
+				QString str=QString::number(++send);
+				str+=" packet sent.";
+				emit Log(str);
+			}
 		}
 		update();
 		//repaint();
