@@ -63,19 +63,35 @@ void Network::socketError()
 	emit NetworkError(m_client->errorString());
 }
 
-void Network::netSend(QString str)
+void Network::netSendText(QString str)
 {
 	 QByteArray block;
      QDataStream out(&block, QIODevice::WriteOnly);
      out.setVersion(QDataStream::Qt_4_0);
      out << (quint16)0;
+	 out << (quint16)MSG_Text;
      out << str;
      out.device()->seek(0);
      out << (quint16)(block.size() - sizeof(quint16));
 	 m_client->write(block);
 	 m_client->flush();
-	 //std::cout << "Sent \"" << str.data() <<"\"" << std::endl;
 }
+
+void Network::netSendMovingPawn(int x,int y)
+{
+	 QByteArray block;
+     QDataStream out(&block, QIODevice::WriteOnly);
+     out.setVersion(QDataStream::Qt_4_0);
+     out << (quint16)0;
+	 out << (quint16)MSG_MovingPawn;
+     out << x;
+	 out << y;
+     out.device()->seek(0);
+     out << (quint16)(block.size() - sizeof(quint16));
+	 m_client->write(block);
+	 m_client->flush();
+}
+
 
 void Network::readNet(void)
 {
@@ -88,9 +104,25 @@ void Network::readNet(void)
      }
      if (m_client->bytesAvailable() < m_blockSize)
          return;
+	 quint16 type;
+	 int x,y;
      QString str;
-     in >> str;
-	 emit NetworkRcvMsg(str);
+	 in >> type;
+	 switch(type) {
+		case	MSG_Text:
+			in >> str;	
+			emit NetworkRcvMsg(str);
+			break;
+		case	MSG_MovingPawn:
+			in >> x;
+			in >> y;
+			emit NetMovingPawn(x,y);
+			break;
+		default:
+			QMessageBox::about(m_parent,"Strange network packet...","Unknown MSG_Type");
+			break;
+	 }
+
      //msgDisplay->append(str);
 	 m_blockSize=0;
 }
