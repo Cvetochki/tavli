@@ -41,7 +41,7 @@ MainWindow::MainWindow()
 	m_board->setNetwork(m_network);
 	connect(m_network,SIGNAL(NetworkError(QString)),this,SLOT(socketError(QString)));
 	connect(m_network,SIGNAL(NetworkRcvMsg(QString)),this,SLOT(rcvMsg(QString)));
-	connect(m_network,SIGNAL(NetMovingPawn(int,int)),m_board,SLOT(netMove(int,int)),Qt::QueuedConnection);
+	connect(m_network,SIGNAL(NetMovingPawn(int,int)),m_board,SLOT(netMove(int,int)));//,Qt::QueuedConnection);
 	connect(m_network,SIGNAL(connectedAsServer()),this,SLOT(gotConnection()));
 
 	
