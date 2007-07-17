@@ -19,6 +19,8 @@
 ***************************************************************************/
 #include "board.h"
 #include "Network.h"
+#include <QImage>
+#include <QPixmap>
 #include <QPainter>
 #include <QCursor>
 #include <QDateTime>
