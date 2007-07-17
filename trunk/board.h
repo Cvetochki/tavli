@@ -21,8 +21,9 @@
 #define BOARD_H
 
 #include <QWidget>
-#include <QImage>
-#include <QPixmap>
+
+class QImage;
+class QPixmap;
 
 class Network;
 
