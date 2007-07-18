@@ -32,7 +32,8 @@
 board::board(QWidget *parent)
 : QWidget(parent),
   m_boardMsgActive(0),
-  m_netmove(false)
+  m_netmove(false),
+  m_network(0)
 {
 	m_sideToPlay=None;
 	m_d[0]=m_d[1]=-1;
@@ -360,7 +361,7 @@ void board::mouseMoveEvent(QMouseEvent *qmouseevent)
 
 	if (m_showdrag) {
 		mousepos = qmouseevent->pos();
-		if (m_network) {
+		if (m_network->m_activeConnection) {
 			if (!(++c%2)) {
 				m_network->netSendMovingPawn(mousepos.x(),mousepos.y());
 				QString str=QString::number(++send);
