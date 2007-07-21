@@ -9,7 +9,7 @@ DEPENDPATH += . debug
 INCLUDEPATH += .
 
 #win32:LIBS	+= freetype.lib
-unix:LIBS += -lopenal
+#unix:LIBS += -lopenal
 
 # Input
 HEADERS += board.h mainwindow.h player.h settings.h Network.h
