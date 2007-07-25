@@ -33,6 +33,7 @@ class QMenu;
 class QTextEdit;
 class QLineEdit;
 class Network;
+class QLabel;
 
 //class board;
 
@@ -102,6 +103,7 @@ private:
     QAction *aboutQtAct;
     QLineEdit *msgInput;
 	QTextEdit *msgDisplay;
+	QLabel	*m_statusLabel;
 	
 	int		m_activeConnection;
 };

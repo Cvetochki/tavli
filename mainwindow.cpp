@@ -35,6 +35,7 @@ MainWindow::MainWindow()
 	:m_activeConnection(0)
 {
     m_board = new board(this);
+	
 	connect(m_board,SIGNAL(Log(QString)),this,SLOT(LogMsg(QString)));
 	
 	m_network = new Network(this);
@@ -340,6 +341,9 @@ void MainWindow::createToolBars()
 void MainWindow::createStatusBar()
 {
     statusBar()->showMessage(tr("Ready"));
+	m_statusLabel= new QLabel(statusBar());
+	m_statusLabel->setText("Not connected");
+	statusBar()->addPermanentWidget(m_statusLabel);
 }
 
 void MainWindow::readSettings()
@@ -446,6 +450,7 @@ void MainWindow::roll()
 	int d1=rand()%6+1;
 	int d2=rand()%6+1;
 	m_board->setRoll(d1,d2);
+	m_statusLabel->setText("Okie....");
 }
 
 
