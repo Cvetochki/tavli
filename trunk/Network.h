@@ -30,12 +30,6 @@ public:
 	void netSendMovingPawn(int x,int y);
 	void netSend(int type,QByteArray str);
 	void closeConnection(void);
-private slots:
-    void readNet(void);
-	void socketError();
-	void gotConnection();
-
-	void internalLostConnection();
 
 signals:
 	void NetworkError(QString str);
@@ -43,6 +37,15 @@ signals:
 	void NetworkRcvMsg(QString str);
 	void NetMovingPawn(int x,int y);
 	void lostConnection(void);
+
+
+private slots:
+    void readNet(void);
+	void socketError();
+	void gotConnection();
+
+	void internalLostConnection();
+
 
 private:
 	QWidget		*m_parent;
