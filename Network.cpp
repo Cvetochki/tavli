@@ -41,7 +41,7 @@ void Network::gotConnection(void)
 	m_client=m_server->nextPendingConnection();
 	connect(m_client,SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(socketError()));
 	connect(m_client,SIGNAL(readyRead()), this, SLOT(readNet()));
-	connect(m_client,SIGNAL(disconnected()),this,SLOT(lostConnection()));
+	connect(m_client,SIGNAL(disconnected()),this,SLOT(internalLostConnection()));
 	/*
 	QMessageBox::StandardButton ret;
 	ret = QMessageBox::warning(m_parent, tr("Tavli"),
@@ -137,7 +137,7 @@ void Network::readNet(void)
      //msgDisplay->append(str);
 	 m_blockSize=0;
 }
-void Network::lostConnection(void)
+void Network::internalLostConnection(void)
 {
 	m_client->deleteLater();
 	emit lostConnection();

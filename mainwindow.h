@@ -58,7 +58,7 @@ private slots:
 
 	void LogMsg(QString str);
     void socketError(QString str);
-	void gotConnection();
+	void gotConnection(QString host);
 	void lostConnection();
 	void sendTextMsg();
 	void rcvMsg(QString str);

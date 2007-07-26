@@ -29,12 +29,13 @@ public:
 	void netSendText(QString str);
 	void netSendMovingPawn(int x,int y);
 	void netSend(int type,QByteArray str);
+	void closeConnection(void);
 private slots:
     void readNet(void);
 	void socketError();
 	void gotConnection();
 
-	void lostConnection();
+	void internalLostConnection();
 
 signals:
 	void NetworkError(QString str);
