@@ -42,6 +42,7 @@ void Network::gotConnection(void)
 	connect(m_client,SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(socketError()));
 	connect(m_client,SIGNAL(readyRead()), this, SLOT(readNet()));
 	connect(m_client,SIGNAL(disconnected()),this,SLOT(lostConnection()));
+	/*
 	QMessageBox::StandardButton ret;
 	ret = QMessageBox::warning(m_parent, tr("Tavli"),
 					tr("A remote host (at %1) is trying to connect...\n"
@@ -56,8 +57,18 @@ void Network::gotConnection(void)
 
 		m_activeConnection=1;
 	}
+	*/
+	m_activeConnection=1;
+	emit connectedAsServer(m_client->peerAddress().toString());
 }
 
+void Network::closeConnection(void)
+{
+		disconnect(m_client, 0, 0, 0);
+		m_client->disconnectFromHost();
+		m_client->deleteLater();
+		m_activeConnection=0;
+}
 void Network::socketError()
 {
 	emit NetworkError(m_client->errorString());
@@ -129,7 +140,7 @@ void Network::readNet(void)
 void Network::lostConnection(void)
 {
 	m_client->deleteLater();
-	QMessageBox::about(m_parent, tr("Lost connection"),
-            tr("Yeap, I <b>lost</b> it."));
+	emit lostConnection();
+	//
 	m_activeConnection=0;
 }
