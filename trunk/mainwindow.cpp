@@ -115,7 +115,7 @@ void MainWindow::gotConnection(QString host)
 					tr("A remote host (at %1) is trying to connect...\n"
 					"Do you want to allow connection?").arg(host),
 					QMessageBox::Yes | QMessageBox::No);
-	if (ret != QMessageBox::Yes)
+	if (ret != QMessageBox::Yes) {
 	    m_network->closeConnection();
 	} else {
 		msgInput->show();
@@ -129,7 +129,7 @@ void MainWindow::lostConnection(void)
 {
 	m_activeConnection=0;
 	m_statusLabel->setText(tr("Not connected"));
-	QMessageBox::about(m_parent, tr("Lost connection"),tr("Yeap, I <b>lost</b> it."));
+	QMessageBox::about(this, tr("Lost connection"),tr("Yeap, I <b>lost</b> it."));
 }
 
 void MainWindow::LogMsg(QString str)
