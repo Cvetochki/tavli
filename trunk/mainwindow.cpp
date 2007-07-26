@@ -44,6 +44,7 @@ MainWindow::MainWindow()
 	connect(m_network,SIGNAL(NetworkRcvMsg(QString)),this,SLOT(rcvMsg(QString)));
 	connect(m_network,SIGNAL(NetMovingPawn(int,int)),m_board,SLOT(netMove(int,int)));//,Qt::QueuedConnection);
 	connect(m_network,SIGNAL(connectedAsServer()),this,SLOT(gotConnection()));
+	connect(m_network,SIGNAL(lostConnection()),this,SLOT(lostConnection()));
 
 	
 	
@@ -107,11 +108,28 @@ MainWindow::MainWindow()
 	//setBoardFromPositionID("dummy");
 }
 
-void MainWindow::gotConnection(void)
+void MainWindow::gotConnection(QString host)
 {
-	msgInput->show();
-	connect(msgInput,SIGNAL(returnPressed()),this,SLOT(sendTextMsg()));
-	m_activeConnection=1;
+	QMessageBox::StandardButton ret;
+	ret = QMessageBox::warning(this, tr("Tavli"),
+					tr("A remote host (at %1) is trying to connect...\n"
+					"Do you want to allow connection?").arg(host),
+					QMessageBox::Yes | QMessageBox::No);
+	if (ret != QMessageBox::Yes)
+	    m_network->closeConnection();
+	} else {
+		msgInput->show();
+		connect(msgInput,SIGNAL(returnPressed()),this,SLOT(sendTextMsg()));
+		m_activeConnection=1;
+		m_statusLabel->setText(tr("Connected"));
+	}
+}
+
+void MainWindow::lostConnection(void)
+{
+	m_activeConnection=0;
+	m_statusLabel->setText(tr("Not connected"));
+	QMessageBox::about(m_parent, tr("Lost connection"),tr("Yeap, I <b>lost</b> it."));
 }
 
 void MainWindow::LogMsg(QString str)
@@ -342,7 +360,7 @@ void MainWindow::createStatusBar()
 {
     statusBar()->showMessage(tr("Ready"));
 	m_statusLabel= new QLabel(statusBar());
-	m_statusLabel->setText("Not connected");
+	m_statusLabel->setText(tr("Not connected"));
 	statusBar()->addPermanentWidget(m_statusLabel);
 }
 

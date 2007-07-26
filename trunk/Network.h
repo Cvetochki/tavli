@@ -38,9 +38,10 @@ private slots:
 
 signals:
 	void NetworkError(QString str);
-	void connectedAsServer(void);
+	void connectedAsServer(QString remoteHost);
 	void NetworkRcvMsg(QString str);
 	void NetMovingPawn(int x,int y);
+	void lostConnection(void);
 
 private:
 	QWidget		*m_parent;
