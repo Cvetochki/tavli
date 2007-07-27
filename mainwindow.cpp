@@ -45,7 +45,7 @@ MainWindow::MainWindow()
 	connect(m_network,SIGNAL(NetMovingPawn(int,int)),m_board,SLOT(netMove(int,int)));//,Qt::QueuedConnection);
 	connect(m_network,SIGNAL(connectedAsServer(QString)),this,SLOT(gotConnection(QString)));
 	connect(m_network,SIGNAL(lostConnection()),this,SLOT(lostConnection()));
-	connect(m_network,SIGNAL(netSendGameSettings(QString,int,int,int,int)),this,SLOT(slotGameSettings(QString,int,int,int,int)));
+	connect(m_network,SIGNAL(NetGameSettings(QString,int,int,int,int)),this,SLOT(slotGameSettings(QString,int,int,int,int)));
 
 	
 	
@@ -112,6 +112,8 @@ MainWindow::MainWindow()
 
 void MainWindow::gotConnection(QString host)
 {
+	m_remoteHost=host;
+	/*
 	QMessageBox::StandardButton ret;
 	ret = QMessageBox::warning(this, tr("Tavli"),
 					tr("A remote host (at %1) is trying to connect...\n"
@@ -122,6 +124,7 @@ void MainWindow::gotConnection(QString host)
 	} else {
 		controlsOnConnection();
 	}
+	*/
 }
 
 void MainWindow::controlsOnConnection(void)
@@ -210,19 +213,21 @@ void MainWindow::slotGameSettings(QString name,int matchLength,int portes, int p
 {
 	SettingsDialog dlg(this);
 
-	dlg.groupBox->setTitle(tr("Your opponent"));
+	dlg.groupBox->setTitle(tr("Opponent"));
 	dlg.player1Name->setText(name);
 	dlg.player1Name->setEnabled(false);
 	dlg.matchLength->setValue(matchLength);
 	dlg.checkBox_portes->setChecked(portes==1);
 	dlg.checkBox_plakoto->setChecked(plakoto==1);
 	dlg.checkBox_fevga->setChecked(fevga==1);
+	dlg.remoteIP->setText(m_remoteHost);
+	dlg.remoteIP->setEnabled(false);
 	dlg.markState();
 	if (dlg.exec()==QDialog::Accepted) {
 		if (dlg.isChanged()) {
 
 		} else {
-
+			controlsOnConnection();
 		}
 	}
 		
@@ -249,14 +254,13 @@ void MainWindow::newFile()
 		if (m_network->m_connected) {
 			connect(msgInput,SIGNAL(returnPressed()),this,SLOT(sendTextMsg()));
 			m_activeConnection=1;
+			m_network->netSendGameSettings(name,
+											matchLength,
+											portes,
+											plakoto,
+											fevga);
+			controlsOnConnection();
 		}
-		
-
-		m_network->netSendGameSettings(name,
-										matchLength,
-										portes,
-										plakoto,
-										fevga);
 
 	} else
 		std::cout << "Not Accepted" <<std::endl;

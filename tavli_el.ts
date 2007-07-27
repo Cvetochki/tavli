@@ -4,7 +4,7 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="mainwindow.cpp" line="112"/>
+        <location filename="mainwindow.cpp" line="442"/>
         <source>Tavli</source>
         <translation>Τάβλι</translation>
     </message>
@@ -12,21 +12,21 @@
         <location filename="mainwindow.cpp" line="114"/>
         <source>A remote host (at %1) is trying to connect...
 Do you want to allow connection?</source>
-        <translation>Ένα απομακρυσμένος υπολογιστής (%1) προσπαθεί να συνδεθεί...
+        <translation type="obsolete">Ένα απομακρυσμένος υπολογιστής (%1) προσπαθεί να συνδεθεί...
 Θέλετε να επιτρέψετε τη σύνδεση;</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="177"/>
+        <location filename="mainwindow.cpp" line="149"/>
         <source>Lost connection</source>
         <translation>Χάθηκε η σύνδεση</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="178"/>
+        <location filename="mainwindow.cpp" line="149"/>
         <source>Yeap, I &lt;b&gt;lost&lt;/b&gt; it.</source>
         <translation>Διακοπή σύνδεσης.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="249"/>
+        <location filename="mainwindow.cpp" line="299"/>
         <source>About Tavli</source>
         <translation>Περί του προγράμματος Τάβλι</translation>
     </message>
@@ -40,177 +40,177 @@ Programmed by Alkis </source>
 Προγραμματισμός: Άλκης</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="263"/>
+        <location filename="mainwindow.cpp" line="313"/>
         <source>&amp;New Match...</source>
         <translation>&amp;Νέα Παρτίδα...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="264"/>
+        <location filename="mainwindow.cpp" line="314"/>
         <source>Ctrl+N</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="265"/>
+        <location filename="mainwindow.cpp" line="315"/>
         <source>Start a new match</source>
         <translation>Έναρξη νέας παρτίδας</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="268"/>
+        <location filename="mainwindow.cpp" line="318"/>
         <source>&amp;Open...</source>
         <translation>Άν&amp;οιγμα...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="269"/>
+        <location filename="mainwindow.cpp" line="319"/>
         <source>Ctrl+O</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="270"/>
+        <location filename="mainwindow.cpp" line="320"/>
         <source>Open an existing file</source>
         <translation>Άνοιγμα αποθηκευμένου παιχνιδιού</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="273"/>
+        <location filename="mainwindow.cpp" line="323"/>
         <source>&amp;Save</source>
         <translation>Αποθήκευ&amp;ση</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="274"/>
+        <location filename="mainwindow.cpp" line="324"/>
         <source>Ctrl+S</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="275"/>
+        <location filename="mainwindow.cpp" line="325"/>
         <source>Save the document to disk</source>
         <translation>Αποθήκευση του παιχνιδιού</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="278"/>
+        <location filename="mainwindow.cpp" line="328"/>
         <source>Save &amp;As...</source>
         <translation>Αποθήκευση &amp;ως...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="279"/>
+        <location filename="mainwindow.cpp" line="329"/>
         <source>Save the document under a new name</source>
         <translation>Αποθήκευση του παιχνιδιού με νέα ονομασία</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="282"/>
+        <location filename="mainwindow.cpp" line="332"/>
         <source>E&amp;xit</source>
         <translation>Έ&amp;ξοδος</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="283"/>
+        <location filename="mainwindow.cpp" line="333"/>
         <source>Ctrl+Q</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="284"/>
+        <location filename="mainwindow.cpp" line="334"/>
         <source>Exit the application</source>
         <translation>Έξοδος από την εφαρμογή</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="288"/>
+        <location filename="mainwindow.cpp" line="338"/>
         <source>&amp;Undo</source>
         <translation>Α&amp;ναίρεση</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="289"/>
+        <location filename="mainwindow.cpp" line="339"/>
         <source>Ctrl+Z</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="290"/>
+        <location filename="mainwindow.cpp" line="340"/>
         <source>Takes back the last move (when not completed) </source>
         <translation>Αναιρεί την μερική κίνηση σας</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="293"/>
+        <location filename="mainwindow.cpp" line="343"/>
         <source>Re&amp;do</source>
         <translation>Επανε&amp;κτέλεση</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="294"/>
+        <location filename="mainwindow.cpp" line="344"/>
         <source>Ctrl+Shift+Z</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="295"/>
+        <location filename="mainwindow.cpp" line="345"/>
         <source>Repeats the partial move that you took back</source>
         <translation>Επαναλαμβάνει την μερική κίνηση που αναιρέσατε</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="298"/>
+        <location filename="mainwindow.cpp" line="348"/>
         <source>&amp;Roll dice</source>
         <translation>&amp;Ρίψη ζαριών</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="299"/>
+        <location filename="mainwindow.cpp" line="349"/>
         <source>Ctrl+R</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="300"/>
+        <location filename="mainwindow.cpp" line="350"/>
         <source>Rolls the dice</source>
         <translation>Ρίχνει μια ζαριά</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="303"/>
+        <location filename="mainwindow.cpp" line="353"/>
         <source>&amp;About</source>
         <translation>&amp;Περί</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="304"/>
+        <location filename="mainwindow.cpp" line="354"/>
         <source>Show the application&apos;s About box</source>
         <translation>Εμφανίζει τα &quot;περί&quot; της εφαρμογής</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="307"/>
+        <location filename="mainwindow.cpp" line="357"/>
         <source>About &amp;Qt</source>
         <translation>Περί &amp;Qt</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="308"/>
+        <location filename="mainwindow.cpp" line="358"/>
         <source>Show the Qt library&apos;s About box</source>
         <translation>Εμφανίζει τα &quot;περί&quot; της Qt βιβλιοθήκης</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="325"/>
+        <location filename="mainwindow.cpp" line="375"/>
         <source>&amp;Game</source>
         <translation>&amp;Παιχνίδι</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="334"/>
+        <location filename="mainwindow.cpp" line="384"/>
         <source>&amp;Move</source>
         <translation>&amp;Κίνηση</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="342"/>
+        <location filename="mainwindow.cpp" line="392"/>
         <source>&amp;Help</source>
         <translation>&amp;Βοήθεια</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="349"/>
+        <location filename="mainwindow.cpp" line="399"/>
         <source>Game</source>
         <translation>Παιχνίδι</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="355"/>
+        <location filename="mainwindow.cpp" line="405"/>
         <source>Move</source>
         <translation>Κίνηση</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="364"/>
+        <location filename="mainwindow.cpp" line="414"/>
         <source>Ready</source>
         <translation>Σε ετοιμότητα</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="420"/>
+        <location filename="mainwindow.cpp" line="473"/>
         <source>File loaded</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="442"/>
+        <location filename="mainwindow.cpp" line="495"/>
         <source>File saved</source>
         <translation></translation>
     </message>
@@ -223,7 +223,7 @@ Oh, and good luck...you&apos;ll actually need it ;-)</source>
 </translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="90"/>
+        <location filename="mainwindow.cpp" line="95"/>
         <source>Welcome to Tavli
 Oh, and good luck...you&apos;ll actually need it ;-)
 </source>
@@ -232,12 +232,12 @@ Oh, and good luck...you&apos;ll actually need it ;-)
 </translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="56"/>
+        <location filename="mainwindow.cpp" line="110"/>
         <source>Listening on port #%1</source>
         <translation>Θα περιμένω σύνδεση στη θύρα #%1</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="252"/>
+        <location filename="mainwindow.cpp" line="302"/>
         <source>An application to play the three greek variations of backgammon.
 
 Programmed by Alkis &lt;a href=&quot;http://redlumf.blogspot.com&quot;&gt;here&lt;/a&gt;</source>
@@ -246,9 +246,31 @@ Programmed by Alkis &lt;a href=&quot;http://redlumf.blogspot.com&quot;&gt;here&l
 Προγραμματισμός: Άλκης</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="102"/>
+        <location filename="mainwindow.cpp" line="107"/>
         <source>tavli</source>
         <translation>Τάβλι</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="135"/>
+        <source>Connected</source>
+        <translation>Σε σύνδεση</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="143"/>
+        <source>Not connected</source>
+        <translation>Χωρίς σύνδεση</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="216"/>
+        <source>Opponent</source>
+        <translation>Αντίπαλος</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="444"/>
+        <source>You are currently connected.
+Do you really want to quit?</source>
+        <translation>Υπάρχει ενεργή σύνδεση.
+Είστε σίγουρος ότι θέλετε να τερματίσετε;</translation>
     </message>
 </context>
 <context>
@@ -256,7 +278,7 @@ Programmed by Alkis &lt;a href=&quot;http://redlumf.blogspot.com&quot;&gt;here&l
     <message>
         <location filename="board.cpp" line="336"/>
         <source>You are not currently in a game</source>
-        <translation>Δεν είστε σε παιχνίδι</translation>
+        <translation type="obsolete">Δεν είστε σε παιχνίδι</translation>
     </message>
 </context>
 <context>
@@ -272,17 +294,17 @@ Programmed by Alkis &lt;a href=&quot;http://redlumf.blogspot.com&quot;&gt;here&l
         <translation type="obsolete">Παιχνίδι</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="57"/>
+        <location filename="settings.ui" line="60"/>
         <source>Match length</source>
         <translation>Διάρκεια παρτίδας</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="64"/>
+        <location filename="settings.ui" line="67"/>
         <source>Choose the length of the match in points</source>
         <translation>Επιλεξτε τη διαρκεια της παρτιδας</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="67"/>
+        <location filename="settings.ui" line="70"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
@@ -292,27 +314,27 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settings.ui" line="75"/>
+        <location filename="settings.ui" line="78"/>
         <source>1 point</source>
         <translation>1 πόντος</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="78"/>
+        <location filename="settings.ui" line="81"/>
         <source> points</source>
         <translation> πόντοι</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="95"/>
+        <location filename="settings.ui" line="98"/>
         <source>Portes</source>
         <translation>Πόρτες</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="105"/>
+        <location filename="settings.ui" line="108"/>
         <source>Plakoto</source>
         <translation>Πλακωτό</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="115"/>
+        <location filename="settings.ui" line="118"/>
         <source>Fevga</source>
         <translation>Φεύγα</translation>
     </message>
@@ -332,17 +354,17 @@ p, li { white-space: pre-wrap; }
         <translation>Όνομα</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="138"/>
+        <location filename="settings.ui" line="141"/>
         <source>Network</source>
         <translation>Δίκτυο</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="151"/>
+        <location filename="settings.ui" line="154"/>
         <source>IP</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="settings.ui" line="176"/>
+        <location filename="settings.ui" line="169"/>
         <source>Computer</source>
         <translation>Υπολογιστής</translation>
     </message>
@@ -352,12 +374,12 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Παίκτης 2</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="204"/>
+        <location filename="settings.ui" line="197"/>
         <source>Ok</source>
         <translation>Οκ</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="211"/>
+        <location filename="settings.ui" line="204"/>
         <source>Cancel</source>
         <translation>Άκυρο</translation>
     </message>
@@ -367,19 +389,19 @@ p, li { white-space: pre-wrap; }
         <translation>Εσείς</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="49"/>
+        <location filename="settings.ui" line="52"/>
         <source>Match settings</source>
         <translation>Ρυθμίσεις παρτίδας</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="130"/>
+        <location filename="settings.ui" line="133"/>
         <source>Opponent</source>
         <translation>Αντίπαλος</translation>
     </message>
     <message>
         <location filename="settings.ui" line="161"/>
         <source>Connect</source>
-        <translation>Σύνδεση</translation>
+        <translation type="obsolete">Σύνδεση</translation>
     </message>
 </context>
 </TS>
