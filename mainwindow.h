@@ -80,6 +80,9 @@ private:
 	QString getPositionID(board::GameType game,int board[2][25]);
 	void setBoardFromPositionID(QString positionID);
 
+	void controlsOnConnection(void);
+	void controlsOffConnection(void);
+
     board *m_board;
 	int    m_anBoard[2][25];
 

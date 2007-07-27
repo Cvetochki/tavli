@@ -53,8 +53,7 @@ MainWindow::MainWindow()
     createActions();
     createMenus();
     createToolBars();
-    createStatusBar();
-	statusBar()->showMessage(tr("Listening on port #%1").arg(m_network->m_listeningPort), 10000);
+    
 	
     readSettings();
 
@@ -106,6 +105,8 @@ MainWindow::MainWindow()
 	msgInput->hide();
 	setWindowTitle(tr("tavli"));
 	//setBoardFromPositionID("dummy");
+	createStatusBar();
+	statusBar()->showMessage(tr("Listening on port #%1").arg(m_network->m_listeningPort), 10000);
 }
 
 void MainWindow::gotConnection(QString host)
@@ -118,17 +119,29 @@ void MainWindow::gotConnection(QString host)
 	if (ret != QMessageBox::Yes) {
 	    m_network->closeConnection();
 	} else {
-		msgInput->show();
-		connect(msgInput,SIGNAL(returnPressed()),this,SLOT(sendTextMsg()));
-		m_activeConnection=1;
-		m_statusLabel->setText(tr("Connected"));
+		controlsOnConnection();
 	}
+}
+
+void MainWindow::controlsOnConnection(void)
+{
+	msgInput->show();
+	connect(msgInput,SIGNAL(returnPressed()),this,SLOT(sendTextMsg()));
+	m_activeConnection=1;
+	m_statusLabel->setText(tr("Connected"));
+}
+
+void MainWindow::controlsOffConnection(void)
+{
+	msgInput->hide();
+	
+	m_activeConnection=0;
+	m_statusLabel->setText(tr("Not connected"));
 }
 
 void MainWindow::lostConnection(void)
 {
-	m_activeConnection=0;
-	m_statusLabel->setText(tr("Not connected"));
+	controlsOffConnection();
 	QMessageBox::about(this, tr("Lost connection"),tr("Yeap, I <b>lost</b> it."));
 }
 
@@ -195,6 +208,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 void MainWindow::newFile()
 {
     SettingsDialog foo(this);
+	
 	if (foo.exec()==QDialog::Accepted) {
 		int n=foo.matchLength->value();
 		QString name=foo.player1Name->text();
@@ -360,8 +374,9 @@ void MainWindow::createStatusBar()
 {
     statusBar()->showMessage(tr("Ready"));
 	m_statusLabel= new QLabel(statusBar());
-	m_statusLabel->setText(tr("Not connected"));
+	//m_statusLabel->setText(tr("Not connected"));
 	statusBar()->addPermanentWidget(m_statusLabel);
+	controlsOffConnection();
 }
 
 void MainWindow::readSettings()
@@ -468,7 +483,7 @@ void MainWindow::roll()
 	int d1=rand()%6+1;
 	int d2=rand()%6+1;
 	m_board->setRoll(d1,d2);
-	m_statusLabel->setText("Okie....");
+	//m_statusLabel->setText("Okie....");
 }
 
 
