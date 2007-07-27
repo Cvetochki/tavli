@@ -103,6 +103,23 @@ void Network::netSendMovingPawn(int x,int y)
 	 m_client->flush();
 }
 
+void Network::netSendGameSettings(QString name,int matchLength,int portes,int plakoto,int fevga)
+{
+	 QByteArray block;
+     QDataStream out(&block, QIODevice::WriteOnly);
+     out.setVersion(QDataStream::Qt_4_0);
+     out << (quint16)0;
+	 out << (quint16)MSG_GameSettings;
+     out << name;
+	 out << matchLength;
+	 out << portes;
+	 out << fevga;
+	 out << plakoto;
+     out.device()->seek(0);
+     out << (quint16)(block.size() - sizeof(quint16));
+	 m_client->write(block);
+	 m_client->flush();
+}
 
 void Network::readNet(void)
 {
@@ -118,6 +135,7 @@ void Network::readNet(void)
 	 quint16 type;
 	 int x,y;
      QString str;
+	 int matchLength,portes,plakoto,fevga;
 	 in >> type;
 	 switch(type) {
 		case	MSG_Text:
@@ -128,6 +146,14 @@ void Network::readNet(void)
 			in >> x;
 			in >> y;
 			emit NetMovingPawn(x,y);
+			break;
+		case MSG_GameSettings:
+			in >> str;
+			in >> matchLength;
+			in >> portes;
+			in >> plakoto;
+			in >> fevga;
+			emit NetGameSettings(str,matchLength,portes,plakoto,fevga);
 			break;
 		default:
 			QMessageBox::about(m_parent,"Strange network packet...","Unknown MSG_Type");

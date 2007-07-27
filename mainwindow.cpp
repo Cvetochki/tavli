@@ -45,6 +45,7 @@ MainWindow::MainWindow()
 	connect(m_network,SIGNAL(NetMovingPawn(int,int)),m_board,SLOT(netMove(int,int)));//,Qt::QueuedConnection);
 	connect(m_network,SIGNAL(connectedAsServer(QString)),this,SLOT(gotConnection(QString)));
 	connect(m_network,SIGNAL(lostConnection()),this,SLOT(lostConnection()));
+	connect(m_network,SIGNAL(netSendGameSettings(QString,int,int,int,int)),this,SLOT(slotGameSettings(QString,int,int,int,int)));
 
 	
 	
@@ -205,6 +206,27 @@ void MainWindow::closeEvent(QCloseEvent *event)
     }
 }
 
+void MainWindow::slotGameSettings(QString name,int matchLength,int portes, int plakoto, int fevga)
+{
+	SettingsDialog dlg(this);
+
+	dlg.groupBox->setTitle(tr("Your opponent"));
+	dlg.player1Name->setText(name);
+	dlg.player1Name->setEnabled(false);
+	dlg.matchLength->setValue(matchLength);
+	dlg.checkBox_portes->setChecked(portes==1);
+	dlg.checkBox_plakoto->setChecked(plakoto==1);
+	dlg.checkBox_fevga->setChecked(fevga==1);
+	dlg.markState();
+	if (dlg.exec()==QDialog::Accepted) {
+		if (dlg.isChanged()) {
+
+		} else {
+
+		}
+	}
+		
+}
 void MainWindow::newFile()
 {
     SettingsDialog foo(this);
@@ -212,6 +234,11 @@ void MainWindow::newFile()
 	if (foo.exec()==QDialog::Accepted) {
 		int n=foo.matchLength->value();
 		QString name=foo.player1Name->text();
+		int matchLength = foo.matchLength->value();
+		int portes  = foo.checkBox_portes->isChecked() ? 1:0;
+		int plakoto = foo.checkBox_plakoto->isChecked() ? 1:0;
+		int fevga  = foo.checkBox_fevga->isChecked() ? 1:0;
+
 		std::cout << "Accepted" <<std::endl;
 		msgInput->show();
 		QString rIP=foo.remoteIP->text();
@@ -223,6 +250,14 @@ void MainWindow::newFile()
 			connect(msgInput,SIGNAL(returnPressed()),this,SLOT(sendTextMsg()));
 			m_activeConnection=1;
 		}
+		
+
+		m_network->netSendGameSettings(name,
+										matchLength,
+										portes,
+										plakoto,
+										fevga);
+
 	} else
 		std::cout << "Not Accepted" <<std::endl;
 }

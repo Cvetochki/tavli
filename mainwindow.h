@@ -62,6 +62,7 @@ private slots:
 	void lostConnection();
 	void sendTextMsg();
 	void rcvMsg(QString str);
+	void slotGameSettings(QString name,int matchLength,int portes, int plakoto, int fevga);
 	void roll();
 	
 private:
