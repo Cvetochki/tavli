@@ -89,6 +89,7 @@ private:
 
 	Network *m_network;
     QString curFile;
+	QString m_remoteHost;
 
 	QVBoxLayout *mainLayout;
     QMenu *fileMenu;
