@@ -29,6 +29,7 @@ public:
 	void netSendText(QString str);
 	void netSendMovingPawn(int x,int y);
 	void netSend(int type,QByteArray str);
+	void netSendGameSettings(QString name,int matchLength,int portes,int plakoto,int fevga);
 	void closeConnection(void);
 
 signals:
@@ -36,6 +37,7 @@ signals:
 	void connectedAsServer(QString remoteHost);
 	void NetworkRcvMsg(QString str);
 	void NetMovingPawn(int x,int y);
+	void NetGameSettings(QString str,int matchLength,int portes,int plakoto,int fevga);
 	void lostConnection(void);
 
 
