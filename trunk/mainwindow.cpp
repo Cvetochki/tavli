@@ -31,6 +31,12 @@
 
 #include <iostream>
 
+#ifdef __GNUC__
+#include <pwd.h> 
+#else
+#include <windows.h>
+#endif
+
 MainWindow::MainWindow()
 	:m_activeConnection(0)
 {
@@ -225,7 +231,12 @@ void MainWindow::slotGameSettings(QString name,int matchLength,int portes, int p
 	dlg.markState();
 	if (dlg.exec()==QDialog::Accepted) {
 		if (dlg.isChanged()) {
-
+			QString name=m_playerName;
+			matchLength = dlg.matchLength->value();
+			portes  = dlg.checkBox_portes->isChecked() ? 1:0;
+			plakoto = dlg.checkBox_plakoto->isChecked() ? 1:0;
+			fevga  = dlg.checkBox_fevga->isChecked() ? 1:0;
+			m_network->netSendGameSettings(name,matchLength,portes,plakoto,fevga);
 		} else {
 			controlsOnConnection();
 		}
@@ -236,8 +247,13 @@ void MainWindow::newFile()
 {
     SettingsDialog foo(this);
 	
+	foo.player1Name->setText(m_playerName);
+	QString oldName=m_playerName;
 	if (foo.exec()==QDialog::Accepted) {
-		int n=foo.matchLength->value();
+		if (foo.player1Name->text()!=oldName) {
+			m_playerName=foo.player1Name->text();
+			writeSettings();
+		}
 		QString name=foo.player1Name->text();
 		int matchLength = foo.matchLength->value();
 		int portes  = foo.checkBox_portes->isChecked() ? 1:0;
@@ -245,7 +261,7 @@ void MainWindow::newFile()
 		int fevga  = foo.checkBox_fevga->isChecked() ? 1:0;
 
 		std::cout << "Accepted" <<std::endl;
-		msgInput->show();
+		
 		QString rIP=foo.remoteIP->text();
 		msgDisplay->append(rIP);
 		if (rIP.isEmpty())
@@ -420,9 +436,34 @@ void MainWindow::createStatusBar()
 
 void MainWindow::readSettings()
 {
+	 QString user;
+
+#ifdef __GNUC__
+	 struct passwd *userinfo;
+	 
+	 userinfo=getpwuid(getuid());
+	 user = userinfo -> pw_name;
+#else
+    DWORD dwBuffer = 256;       
+    TCHAR strUserName[255];
+	GetUserName(strUserName, &dwBuffer); 
+QT_WA ( 
+{
+    user = QString::fromWCharArray (reinterpret_cast<ushort *>(strUserName));
+} , 
+{
+	user = QString::fromLocal8Bit (reinterpret_cast<const char *>(&(strUserName[0])));
+} ); // QT_WA
+
+#endif
+	QString firstLetter=user.left(1);
+	QString rest=user.right(user.length()-1);
+	user=firstLetter.toUpper()+rest;
+
     QSettings settings("Alkis", "Tavli");
     QPoint pos = settings.value("pos", QPoint(200, 200)).toPoint();
     QSize size = settings.value("size", QSize(400, 400)).toSize();
+	m_playerName = settings.value("name",user).toString();
     resize(size);
     move(pos);
 }
@@ -432,6 +473,7 @@ void MainWindow::writeSettings()
     QSettings settings("Alkis", "Tavli");
     settings.setValue("pos", pos());
     settings.setValue("size", size());
+	settings.setValue("name",m_playerName);
 }
 
 bool MainWindow::maybeSave()
