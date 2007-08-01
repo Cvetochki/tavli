@@ -90,6 +90,7 @@ private:
 	Network *m_network;
     QString curFile;
 	QString m_remoteHost;
+	QString m_playerName;
 
 	QVBoxLayout *mainLayout;
     QMenu *fileMenu;

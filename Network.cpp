@@ -113,8 +113,8 @@ void Network::netSendGameSettings(QString name,int matchLength,int portes,int pl
      out << name;
 	 out << matchLength;
 	 out << portes;
-	 out << fevga;
 	 out << plakoto;
+	 out << fevga;
      out.device()->seek(0);
      out << (quint16)(block.size() - sizeof(quint16));
 	 m_client->write(block);
