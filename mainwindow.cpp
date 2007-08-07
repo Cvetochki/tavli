@@ -74,9 +74,10 @@ MainWindow::MainWindow()
 	QLabel *label=new QLabel(right);
 	msgInput = new QLineEdit(right);
 	msgDisplay = new QTextEdit(right);
+	
 	msgDisplay->setReadOnly(true);
-	msgDisplay->setFocusPolicy(Qt::NoFocus);
-	msgDisplay->setTextInteractionFlags (Qt::LinksAccessibleByMouse);
+	//msgDisplay->setFocusPolicy(Qt::NoFocus);
+	//msgDisplay->setTextInteractionFlags (Qt::LinksAccessibleByMouse);
 	msgDisplay->setMinimumWidth(300);
 	QHBoxLayout *mainLayout = new QHBoxLayout(center);
 	QVBoxLayout *secLayout = new QVBoxLayout(right);
