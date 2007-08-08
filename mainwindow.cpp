@@ -43,7 +43,8 @@ MainWindow::MainWindow()
     m_board = new board(this);
 	
 	connect(m_board,SIGNAL(Log(QString)),this,SLOT(LogMsg(QString)));
-	
+
+		
 	m_network = new Network(this);
 	m_board->setNetwork(m_network);
 	connect(m_network,SIGNAL(NetworkError(QString)),this,SLOT(socketError(QString)));
