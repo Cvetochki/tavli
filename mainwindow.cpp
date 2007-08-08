@@ -132,6 +132,7 @@ void MainWindow::gotConnection(QString host)
 		controlsOnConnection();
 	}
 	*/
+	controlsOnConnection();
 }
 
 void MainWindow::controlsOnConnection(void)
@@ -220,6 +221,10 @@ void MainWindow::slotGameSettings(QString name,int matchLength,int portes, int p
 {
 	SettingsDialog dlg(this);
 
+	if (matchLength==0) {
+		controlsOnConnection();
+		return;
+	}
 	dlg.groupBox->setTitle(tr("Opponent"));
 	dlg.player1Name->setText(name);
 	dlg.player1Name->setEnabled(false);
@@ -240,6 +245,7 @@ void MainWindow::slotGameSettings(QString name,int matchLength,int portes, int p
 			m_network->netSendGameSettings(name,matchLength,portes,plakoto,fevga);
 		} else {
 			controlsOnConnection();
+			m_network->netSendGameSettings(name,0,portes,plakoto,fevga);
 		}
 	}
 		
