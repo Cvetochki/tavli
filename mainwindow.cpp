@@ -253,7 +253,7 @@ void MainWindow::slotGameSettings(QString name,int matchLength,int portes, int p
 }
 void MainWindow::newFile()
 {
-    SettingsDialog foo(this);
+    SettingsDialog foo(this); 
 	
 	foo.player1Name->setText(m_playerName);
 	QString oldName=m_playerName;
