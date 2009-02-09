@@ -3,16 +3,17 @@ CXXFLAGS=-O3 -march=pentium4 -mfpmath=sse -msse2 -fomit-frame-pointer -funroll-l
 #CXXFLAGS=-g
 #-Wunreachable-code
 
-ICC=icc
+ICC=icpc
 ICCFLAGS=-xT -ipo -O9
+ICCFLAGS=-xHost -ipo -O9
 
 OBJS=nn.o CNeuralNet.o bench.o
 
 nn: $(OBJS)
 
-#CC=$(ICC)
-#CXX=$(ICC)
-#CXXFLAGS=$(ICCFLAGS)
+CC=$(ICC)
+CXX=$(ICC)
+CXXFLAGS=$(ICCFLAGS)
 
 nn.icc: $(OBJS)
 
