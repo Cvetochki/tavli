@@ -61,7 +61,7 @@ CNeuralNet::CNeuralNet(int numOfInputs, int numOfHiddenNeurons, int numOfOutputs
  :m_numOfInputs(numOfInputs),
  m_numOfHiddenNeurons(numOfHiddenNeurons),
  m_numOfOutputs(numOfOutputs),
- m_learningRate(LEARNING_RATE),
+ m_learningRate((real)LEARNING_RATE),
  m_trainingCounter(0),
  m_gameCounter(0)
 {
@@ -287,7 +287,7 @@ int CNeuralNet::train(real *inp,real *target)
 	real learningRate=m_learningRate / pow(m_trainingCounter / 1000.0 + 1.0, 0.3 );
 	//std::cout << "Learning rate : " << learningRate << std::endl;
 #elif defined(ALKIS_LR)
-	real learningRate=m_learningRate / pow(2,m_trainingCounter / 300000000.0);
+	real learningRate=m_learningRate / pow(2,m_trainingCounter / ((real)300000000.0));
 	//std::cout << "Learning rate : " << learningRate << std::endl;
 #else
 #define learningRate	m_learningRate
@@ -328,7 +328,7 @@ int CNeuralNet::newtrain(real *inp,real *target)
 	real learningRate=m_learningRate / pow(m_trainingCounter / 1000.0 + 1.0, 0.3 );
 	//std::cout << "Learning rate : " << learningRate << std::endl;
 #elif defined(ALKIS_LR)
-	real learningRate=m_learningRate / pow(2,m_trainingCounter / 300000000.0);
+	real learningRate=m_learningRate / pow(2,m_trainingCounter / ((real)300000000.0));
 	//std::cout << "Learning rate : " << learningRate << std::endl;
 #else
 #define learningRate	m_learningRate
@@ -347,7 +347,7 @@ int CNeuralNet::newtrain(real *inp,real *target)
 
 	// Get the delta value for the output layer
 	for(int i=0; i<NUM_OUTPUTS; ++i)
-		delta_outputs[i]= out[i] * (1.0 - out[i]) * (target[i] - out[i]);
+		delta_outputs[i]= out[i] * (((real)1.0) - out[i]) * (target[i] - out[i]);
 
 	// Get the delta value for the hidden layer
 	for (int i = 0; i < NUM_NEURONS + 1; ++i)
@@ -357,7 +357,7 @@ int CNeuralNet::newtrain(real *inp,real *target)
         {
             error += m_outNeurons[j].m_w[i] * delta_outputs[j];
         }
-        delta_hidden[i] = m_hiddenNeurons[i].m_activation * (1.0 - m_hiddenNeurons[i].m_activation) * error;
+        delta_hidden[i] = m_hiddenNeurons[i].m_activation * (((real)1.0) - m_hiddenNeurons[i].m_activation) * error;
     }
 
 	// Now update the weights between hidden & output layer
@@ -411,7 +411,7 @@ int CNeuralNet::newtrain2(real *inp,real *target)
 	real learningRate=m_learningRate / pow(m_trainingCounter / 1000.0 + 1.0, 0.3 );
 	//std::cout << "Learning rate : " << learningRate << std::endl;
 #elif defined(ALKIS_LR)
-	real learningRate=m_learningRate / pow(2,m_trainingCounter / 300000000.0);
+	real learningRate=m_learningRate / pow(2,m_trainingCounter / ((real)300000000.0));
 	//std::cout << "Learning rate : " << learningRate << std::endl;
 #else
 #define learningRate	m_learningRate
