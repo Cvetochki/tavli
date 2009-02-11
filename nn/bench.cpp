@@ -246,7 +246,7 @@ real *BenchConvertToInputVector(int anBoard[2][25])
 		   	vec[10*i+0]=1;
 		   	if (t>1) vec[10*i+1]=1;
 		   	if (t>2) vec[10*i+2]=1;
-			if (t>3) vec[10*i+3]=(real)(t-3)/2.0;
+			if (t>3) vec[10*i+3]=(real)(t-3)/((real)2.0);
 		}
 		if (t=anBoard[0][i]) {
 			if (t>64) {
@@ -256,12 +256,12 @@ real *BenchConvertToInputVector(int anBoard[2][25])
 			vec[10*i+5]=-1;
 			if (t>1) vec[10*i+6]=-1;
 			if (t>2) vec[10*i+7]=-1;
-			if (t>3) vec[10*i+8]=-(real)(t-3)/2.0;
+			if (t>3) vec[10*i+8]=-(real)(t-3)/((real)2.0);
 		}
 	}
 #endif
-	vec[NUM_INPUTS-2] =  (real) (anBoard[1][24])/15.0;
-    vec[NUM_INPUTS-1] = -(real) (anBoard[0][24])/15.0;
+	vec[NUM_INPUTS-2] =  (real) (anBoard[1][24])/((real)15.0);
+    vec[NUM_INPUTS-1] = -(real) (anBoard[0][24])/((real)15.0);
 	return &vec[0];
 }
 
