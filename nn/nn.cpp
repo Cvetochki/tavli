@@ -103,7 +103,7 @@ int main(int argc, char **argv)
 	
 	startGameCounter=gameCounter=0;upto=300000;
 	start=time(&start);
-	srand(start);
+	srand((unsigned int) start);
 	CNeuralNet ann(NUM_INPUTS,NUM_NEURONS,NUM_OUTPUTS);
 	nn=&ann;
 	if (argc>=2) {
