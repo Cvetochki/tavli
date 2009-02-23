@@ -817,7 +817,8 @@ real *ConvertToInputVector(int anBoard[2][25])
 				}
 			}
 		vec[NUM_INPUTS-4]=cap/((real)36.0);
-//#define DEBUGMANAPROPABILITY
+		
+#define DEBUGMANAPROPABILITY
 #ifdef DEBUGMANAPROPABILITY
 		if (vec[NUM_INPUTS-4]==1.00) {
 			int inp;
