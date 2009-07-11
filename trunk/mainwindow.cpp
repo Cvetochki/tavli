@@ -248,7 +248,9 @@ void MainWindow::slotGameSettings(QString name,int matchLength,int portes, int p
 			controlsOnConnection();
 			m_network->netSendGameSettings(name,0,portes,plakoto,fevga);
 		}
-	}
+	} else
+		m_network->closeConnection();
+	
 		
 }
 void MainWindow::newFile()
