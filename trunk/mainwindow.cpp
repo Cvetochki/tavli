@@ -31,7 +31,7 @@
 
 #include <iostream>
 
-#ifdef __GNUC__
+#ifndef __WIN32__
 #include <pwd.h> 
 #else
 #include <windows.h>
@@ -448,21 +448,22 @@ void MainWindow::readSettings()
 {
 	 QString user;
 
-#ifdef __GNUC__
+#ifndef __WIN32__
 	 struct passwd *userinfo;
 	 
 	 userinfo=getpwuid(getuid());
 	 user = userinfo -> pw_name;
 #else
-    DWORD dwBuffer = 256;       
+
+    DWORD dwBuffer = 256;
     TCHAR strUserName[255];
 	GetUserName(strUserName, &dwBuffer); 
 QT_WA ( 
 {
-    user = QString::fromWCharArray (reinterpret_cast<ushort *>(strUserName));
+    user = QString::fromWCharArray (reinterpret_cast<const wchar_t *>(strUserName));
 } , 
 {
-	user = QString::fromLocal8Bit (reinterpret_cast<const char *>(&(strUserName[0])));
+    user = QString::fromLocal8Bit (reinterpret_cast<const char *>(&(strUserName[0])));
 } ); // QT_WA
 
 #endif
