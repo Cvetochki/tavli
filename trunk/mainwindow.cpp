@@ -474,7 +474,7 @@ QT_WA (
     QSettings settings("Alkis", "Tavli");
     QPoint pos = settings.value("pos", QPoint(200, 200)).toPoint();
     QSize size = settings.value("size", QSize(400, 400)).toSize();
-	m_playerName = settings.value("name",user).toString();
+    m_playerName = settings.value("name",user).toString();
     resize(size);
     move(pos);
 }
@@ -484,7 +484,7 @@ void MainWindow::writeSettings()
     QSettings settings("Alkis", "Tavli");
     settings.setValue("pos", pos());
     settings.setValue("size", size());
-	settings.setValue("name",m_playerName);
+    settings.setValue("name",m_playerName);
 }
 
 bool MainWindow::maybeSave()
