@@ -33,3 +33,16 @@ bool SettingsDialog::isChanged(void)
 	else
 		return false;
 }
+
+void SettingsDialog::network_textchanged(QString str)
+{
+   if (isValidIP(remoteIP->text()))
+      okButton->setEnabled(true);
+   else
+      okButton->setEnabled(false);
+}
+
+int SettingsDialog::isValidIP(QString str)
+{
+    return 1;
+}

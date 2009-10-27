@@ -12,5 +12,8 @@ class SettingsDialog : public QDialog, public Ui::settingsDlg
      SettingsDialog(QWidget *parent = 0);
 	 void markState(void);
 	 bool isChanged(void);
+      int isValidIP(QString str);
+private slots:
+         void network_textchanged(QString str);
 };
 
