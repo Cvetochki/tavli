@@ -31,6 +31,8 @@
 
 #include <iostream>
 
+#define __WIN32__
+
 #ifndef __WIN32__
 #include <pwd.h> 
 #else
