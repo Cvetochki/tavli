@@ -45,20 +45,12 @@ board::board(QWidget *parent)
     else
         emit Log("Couldn't load image...\n");
 
-    //setPaletteBackgroundPixmap(bg);
+
     m_iwhite.load("images/white_pawn.png");
     m_ired.load("images/red_pawn.png");
 
-    //setBackgroundMode(NoBackground);
     setAutoFillBackground(false);
-    //mp.resize(32,32);
-    //mp.setMask(mp.createHeuristicMask());
 
-    //QCursor c(mp);
-
-    //setCursor(Qt::BlankCursor);
-
-    //qpixmap=0;
     setFixedSize(700,600);
     QResizeEvent foo(QSize(width(),height()),QSize(width(),height()));
     resizeEvent(&foo);

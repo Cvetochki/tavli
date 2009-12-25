@@ -144,6 +144,7 @@ void MainWindow::controlsOnConnection(void)
     connect(msgInput,SIGNAL(returnPressed()),this,SLOT(sendTextMsg()));
     m_activeConnection=1;
     m_statusLabel->setText(tr("Connected"));
+    m_statusLabel->setToolTip(tr("Connection established with %1").arg(m_remoteHost));
 }
 
 void MainWindow::controlsOffConnection(void)
@@ -261,6 +262,7 @@ void MainWindow::newFile()
     SettingsDialog foo(this); 
 
     foo.player1Name->setText(m_playerName);
+    foo.remoteIP->setText(m_lastRemoteHost);
     QString oldName=m_playerName;
     if (foo.exec()==QDialog::Accepted) {
         if (foo.player1Name->text()!=oldName) {
@@ -288,6 +290,8 @@ void MainWindow::newFile()
                                            portes,
                                            plakoto,
                                            fevga);
+            m_remoteHost=foo.remoteIP->text();
+            m_lastRemoteHost=m_remoteHost;
             controlsOnConnection();
         }
 
