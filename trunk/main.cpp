@@ -32,13 +32,13 @@ int main(int argc, char *argv[])
     Q_INIT_RESOURCE(tavli);
 
     QApplication app(argc, argv);
-	
-	QString locale = QLocale::system().name();
+
+    QString locale = QLocale::system().name();
 
     QTranslator translator;
-	translator.load(QString("tavli_") + locale);
+    translator.load(QString("tavli_") + locale);
     app.installTranslator(&translator);
-	
+
     MainWindow mainWin;
     mainWin.show();
     return app.exec();

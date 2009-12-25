@@ -34,60 +34,60 @@ This is the widget that implement the board (Tavliera)
 */
 class board : public QWidget
 {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	enum SideToPlay {White,Red,None};
-	enum GameType {Portes, Plakoto, Fevga};
-	
+    enum SideToPlay {White,Red,None};
+    enum GameType {Portes, Plakoto, Fevga};
+
     board(QWidget *parent = 0);
-	void setNetwork(Network *network);
+    void setNetwork(Network *network);
     void setGame(GameType n);
     void setBoard(int b[2][25]);
     void setRoll(int d1, int d2);
-	void boardMsg(QString msg,int seconds=4);
+    void boardMsg(QString msg,int seconds=4);
 
     ~board();
 
 protected:
     void paintEvent(QPaintEvent *);
-	void wheelEvent ( QWheelEvent * ev );
+    void wheelEvent ( QWheelEvent * ev );
     void mouseMoveEvent(QMouseEvent *qmouseevent);
     virtual void resizeEvent ( QResizeEvent *re);
     void mousePressEvent ( QMouseEvent * e );
     void mouseReleaseEvent ( QMouseEvent * e );
-	
+
 
 private:
-	Network *m_network;
+    Network *m_network;
     QPoint 	mousepos;
     bool	m_showdrag;
-	bool	m_netmove;
+    bool	m_netmove;
     int		m_pawnsize;
     QImage  m_iboard;
     QPixmap m_pboard;
     QImage  m_iwhite;
     QImage  m_ired;
     QPixmap m_pred; 
-	QPixmap m_pwhite;
-	
-	QPixmap m_dices[7];
-	int		m_d[4];
+    QPixmap m_pwhite;
+
+    QPixmap m_dices[7];
+    int		m_d[4];
 
     //QPixmap *qpixmap;
     //bool bneedrecreate;
 
     int anBoard[2][25];
     GameType m_gameType;
-	SideToPlay m_sideToPlay;
-	QTimer *m_timer;
-	int		m_boardMsgActive;
-	QString m_msg;
+    SideToPlay m_sideToPlay;
+    QTimer *m_timer;
+    int		m_boardMsgActive;
+    QString m_msg;
 
 private slots:
-	void boardMsgTimeOut();
-	void netMove(int x, int y);
+    void boardMsgTimeOut();
+    void netMove(int x, int y);
 
 signals:
-	void Log(QString str);
+    void Log(QString str);
 };
 #endif
