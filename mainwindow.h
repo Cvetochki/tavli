@@ -56,15 +56,15 @@ private slots:
     void about();
     void documentWasModified();
 
-	void LogMsg(QString str);
+    void LogMsg(QString str);
     void socketError(QString str);
-	void gotConnection(QString host);
-	void lostConnection();
-	void sendTextMsg();
-	void rcvMsg(QString str);
-	void slotGameSettings(QString name,int matchLength,int portes, int plakoto, int fevga);
-	void roll();
-	
+    void gotConnection(QString host);
+    void lostConnection();
+    void sendTextMsg();
+    void rcvMsg(QString str);
+    void slotGameSettings(QString name,int matchLength,int portes, int plakoto, int fevga);
+    void roll();
+
 private:
     void createBoard(void);
     void createActions();
@@ -78,21 +78,22 @@ private:
     bool saveFile(const QString &fileName);
     void setCurrentFile(const QString &fileName);
     QString strippedName(const QString &fullFileName);
-	QString getPositionID(board::GameType game,int board[2][25]);
-	void setBoardFromPositionID(QString positionID);
+    QString getPositionID(board::GameType game,int board[2][25]);
+    void setBoardFromPositionID(QString positionID);
 
-	void controlsOnConnection(void);
-	void controlsOffConnection(void);
+    void controlsOnConnection(void);
+    void controlsOffConnection(void);
 
     board *m_board;
-	int    m_anBoard[2][25];
+    int    m_anBoard[2][25];
 
-	Network *m_network;
+    Network *m_network;
     QString curFile;
-	QString m_remoteHost;
-	QString m_playerName;
+    QString m_remoteHost;
+    QString m_lastRemoteHost;
+    QString m_playerName;
 
-	QVBoxLayout *mainLayout;
+    QVBoxLayout *mainLayout;
     QMenu *fileMenu;
     QMenu *moveMenu;
     QMenu *helpMenu;
@@ -109,10 +110,10 @@ private:
     QAction *aboutAct;
     QAction *aboutQtAct;
     QLineEdit *msgInput;
-	QTextEdit *msgDisplay;
-	QLabel	*m_statusLabel;
-	
-	int		m_activeConnection;
+    QTextEdit *msgDisplay;
+    QLabel	*m_statusLabel;
+
+    int		m_activeConnection;
 };
 
 #endif
