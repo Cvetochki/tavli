@@ -22,7 +22,7 @@
 ****************************************************************************/
 #include <QtGui>
 
-
+ #include <Phonon/MediaObject>
 
 
 #include "mainwindow.h"
@@ -260,7 +260,7 @@ void MainWindow::slotGameSettings(QString name,int matchLength,int portes, int p
 }
 void MainWindow::newFile()
 {
-    SettingsDialog foo(this); 
+    SettingsDialog foo(this);
 
     foo.player1Name->setText(m_playerName);
     foo.remoteIP->setText(m_lastRemoteHost);
