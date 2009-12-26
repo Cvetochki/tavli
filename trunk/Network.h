@@ -6,7 +6,7 @@
 class QTcpServer;
 class QTcpSocket;
 
-#define MSG_Text			1
+#define MSG_Text		1
 #define MSG_Identity		2
 #define MSG_GameSettings	3
 #define MSG_ReGameSettings	4
@@ -18,9 +18,9 @@ class Network: public QObject
 {
     Q_OBJECT
 public:
-    int			m_listeningPort;
-    int			m_connected;
-    int			m_activeConnection;
+    int	m_listeningPort;
+    int	m_connected;
+    int	m_activeConnection;
 
     Network(QWidget *parent);
     ~Network(void);
@@ -50,10 +50,10 @@ private slots:
 
 
 private:
-    QWidget		*m_parent;
+    QWidget	*m_parent;
     QTcpServer	*m_server;
     QTcpSocket	*m_client;
-    quint16		m_blockSize;
+    quint16	m_blockSize;
 
 };
 
