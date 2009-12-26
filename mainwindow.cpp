@@ -173,6 +173,7 @@ void MainWindow::socketError(QString str)
 {
     msgDisplay->setTextColor(QColor(rand()%255,rand()%255,rand()%255));
     msgDisplay->append(str);
+    controlsOffConnection();
 }
 
 void MainWindow::rcvMsg(QString str)
