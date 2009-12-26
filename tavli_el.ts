@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="1.1" language="el">
-<defaultcodec></defaultcodec>
+<!DOCTYPE TS>
+<TS version="2.0" language="el">
 <context>
     <name>MainWindow</name>
     <message>
@@ -301,7 +301,7 @@ Do you really want to quit?</source>
     <message>
         <location filename="settings.ui" line="67"/>
         <source>Choose the length of the match in points</source>
-        <translation>Επιλεξτε τη διαρκεια της παρτιδας</translation>
+        <translation type="unfinished">Επιλεξτε τη διαρκεια της παρτιδας σε πόντους</translation>
     </message>
     <message>
         <location filename="settings.ui" line="70"/>

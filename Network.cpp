@@ -7,9 +7,10 @@
 #include <iostream>
 
 Network::Network(QWidget *parent)
-    :m_parent(parent),
+    :
     m_connected(0),
     m_activeConnection(0),
+    m_parent(parent),
     m_blockSize(0)
 {
     m_server = new QTcpServer(this);

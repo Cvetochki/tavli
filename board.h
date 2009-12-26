@@ -59,10 +59,11 @@ protected:
 
 private:
     Network *m_network;
-    QPoint 	mousepos;
-    bool	m_showdrag;
-    bool	m_netmove;
-    int		m_pawnsize;
+    QPoint  mousepos;
+    bool    m_showdrag;
+    int     m_boardMsgActive;
+    bool    m_netmove;
+    int     m_pawnsize;
     QImage  m_iboard;
     QPixmap m_pboard;
     QImage  m_iwhite;
@@ -71,16 +72,16 @@ private:
     QPixmap m_pwhite;
 
     QPixmap m_dices[7];
-    int		m_d[4];
+    int     m_d[4];
 
     //QPixmap *qpixmap;
     //bool bneedrecreate;
 
-    int anBoard[2][25];
+    int     anBoard[2][25];
     GameType m_gameType;
     SideToPlay m_sideToPlay;
     QTimer *m_timer;
-    int		m_boardMsgActive;
+
     QString m_msg;
 
 private slots:
