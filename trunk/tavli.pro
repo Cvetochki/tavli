@@ -4,6 +4,7 @@
 CONFIG += embed_manifest_exe qt debug
 TEMPLATE = app
 QT += network
+#QT += phonon
 TARGET = tavli
 DEPENDPATH += . debug
 INCLUDEPATH += .
