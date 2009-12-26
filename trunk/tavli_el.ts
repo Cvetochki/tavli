@@ -301,7 +301,7 @@ Do you really want to quit?</source>
     <message>
         <location filename="settings.ui" line="67"/>
         <source>Choose the length of the match in points</source>
-        <translation type="unfinished">Επιλεξτε τη διαρκεια της παρτιδας σε πόντους</translation>
+        <translation>Επιλεξτε τη διαρκεια της παρτιδας σε πόντους</translation>
     </message>
     <message>
         <location filename="settings.ui" line="70"/>
