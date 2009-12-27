@@ -22,9 +22,6 @@
 ****************************************************************************/
 #include <QtGui>
 
- #include <Phonon/MediaObject>
-
-
 #include "mainwindow.h"
 #include "Network.h"
 #include "settings.h"
