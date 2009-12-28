@@ -35,6 +35,7 @@ void Network::connectTo(QString str)
         connect(m_client,SIGNAL(readyRead()), this, SLOT(readNet()));
         connect(m_client,SIGNAL(disconnected()),this,SLOT(lostConnection()));
         m_connected=1;
+		m_activeConnection=1;
     }
 }
 void Network::gotConnection(void)

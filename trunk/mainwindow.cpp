@@ -28,7 +28,9 @@
 
 #include <iostream>
 
-//#define __WIN32__
+#ifdef _WIN32
+#define __WIN32__
+#endif
 
 #ifndef __WIN32__
 #include <pwd.h> 
@@ -185,7 +187,7 @@ void MainWindow::sendTextMsg(void)
         return;
     str=msgInput->text();
     //str+="\n";
-    m_network->netSendText(str);//+"\n");
+	m_network->netSendText(m_playerName + ": " +str);//+"\n");
     msgInput->setText("");
     str="You say: "+str;
     msgDisplay->append(str);
