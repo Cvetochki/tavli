@@ -18,3 +18,8 @@ FORMS += settings.ui
 SOURCES += board.cpp main.cpp mainwindow.cpp player.cpp settings.cpp Network.cpp
 RESOURCES += tavli.qrc
 TRANSLATIONS += tavli_el.ts
+
+
+UI_DIR = uics
+MOC_DIR = mocs
+OBJECTS_DIR = objs
