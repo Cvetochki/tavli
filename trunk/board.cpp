@@ -51,9 +51,10 @@ board::board(QWidget *parent)
 
     setAutoFillBackground(false);
 
-    setFixedSize(700,600);
-    QResizeEvent foo(QSize(width(),height()),QSize(width(),height()));
-    resizeEvent(&foo);
+    //setFixedSize(700,600);
+    setFixedSize(350,300);
+    //QResizeEvent foo(QSize(width(),height()),QSize(width(),height()));
+    //resizeEvent(&foo);
 
     m_timer = new QTimer(this);
     connect(m_timer, SIGNAL(timeout()), this, SLOT(boardMsgTimeOut()));
@@ -101,7 +102,7 @@ void board::paintEvent(QPaintEvent *)
     qpainter.drawPixmap(0,0,m_pboard,0,0,width(),height());
 
     int offsy=46-16;
-    int bottom=512+16;
+    int bottom=(512+16)/2;
     if (m_gameType==Portes) {//Portes
 
     } else if (m_gameType==Plakoto) { //Plakoto
@@ -421,7 +422,7 @@ void board::resizeEvent ( QResizeEvent *re )
     m_pboard=QPixmap::fromImage(tmp);
     std::cout << "pixmap width=" << m_pboard.width() << " pixmap height=" << m_pboard.height() << std::endl;
 
-    m_pawnsize=42;
+    m_pawnsize=42*w/700;
     tmp=m_ired.scaled(m_pawnsize,m_pawnsize,Qt::KeepAspectRatio,Qt::SmoothTransformation);
     m_pred=QPixmap::fromImage(tmp);
     std::cout << "pixmap width=" << m_pred.width() << " pixmap height=" << m_pred.height() << std::endl;
