@@ -42,10 +42,10 @@ real CNeuron::sigmoid(real x)
 	return 1/(1+exp(-x));
 }
 
-real sigmoid(real x)
-{
-	return 1/(1+exp(-x));
-}
+//real sigmoid(real x)
+//{
+//	return 1/(1+exp(-x));
+//}
 real CNeuron::feed(real *inp)
 {
 	real sum=0;
