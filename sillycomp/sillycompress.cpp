@@ -99,8 +99,8 @@ int SillyCompress::Compress(void)
         sum+=(3+b);
     }
     file2.close();
-    qDebug() << sum/8 << "/" << m_originalSize ;
-    qDebug() << 100* ( (m_originalSize-sum/8.0)/m_originalSize) << "%";
+    qDebug() << sum/8 << "/" << m_originalSize << " "<< 100* ( (m_originalSize-sum/8.0)/m_originalSize) << "%";
+
     return 0;
 }
 
