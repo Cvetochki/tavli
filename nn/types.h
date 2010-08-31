@@ -48,7 +48,7 @@ typedef float real;
 #endif
 
 #define NUM_OUTPUTS 3
-#define NUM_NEURONS 128
+#define NUM_NEURONS 40
 
 #define OUT_WIN			0
 #define OUT_WINDOUBLE	1
