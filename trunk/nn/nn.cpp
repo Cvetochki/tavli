@@ -69,7 +69,7 @@ void printAllMoves(int d1, int d2)
 
 int mycompare(const void *left,const void *right)
 {
-	static int cc=0;
+	//static int cc=0;
 	
 	struct _move *l,*r;
 	l=(struct _move *)left;
@@ -258,7 +258,7 @@ int main(int argc, char **argv)
 			if (!(gameCounter % 1000)) {
 				int anBoardTemp[ 2 ][ 25 ];
 				memcpy(anBoardTemp, anBoardTrain, sizeof(anBoardTrain));
-				printAllMoves(d1,d2);
+				//printAllMoves(d1,d2);
 				if (n % 2)
 					std::cout <<(n+1)-oldn << " X to play roll ";
 				else
