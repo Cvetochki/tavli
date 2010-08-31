@@ -258,7 +258,7 @@ int main(int argc, char **argv)
 			if (!(gameCounter % 1000)) {
 				int anBoardTemp[ 2 ][ 25 ];
 				memcpy(anBoardTemp, anBoardTrain, sizeof(anBoardTrain));
-				//printAllMoves(d1,d2);
+				printAllMoves(d1,d2);
 				if (n % 2)
 					std::cout <<(n+1)-oldn << " X to play roll ";
 				else
@@ -777,21 +777,22 @@ real *ConvertToInputVector(int anBoard[2][25])
 			if (t==1) vec[10*i+0]=1;
 			if (t==2) vec[10*i+1]=1;
 			if (t==3) vec[10*i+2]=1;
-			if (t>3)  vec[10*i+3]=(real)(t-3)/((real)12.0);
+			if (t>3)  vec[10*i+3]=(real)(t-3)/((real)2.0);
 		}
 		if (t=anBoard[0][i]) {
 			if (t>64) {
 				t-=64;
-				vec[10*i+9]=-1;
+				vec[10*i+9]=1;
 			}
-			if (t==1) vec[10*i+5]=-1;
-			if (t==2) vec[10*i+6]=-1;
-			if (t==3) vec[10*i+7]=-1;
-			if (t>3)  vec[10*i+8]=-(real)(t-3)/((real)12.0);
+			if (t==1) vec[10*i+5]=1;
+			if (t==2) vec[10*i+6]=1;
+			if (t==3) vec[10*i+7]=1;
+			if (t>3)  vec[10*i+8]=(real)(t-3)/((real)2.0);
 		}
 	}
 	
 	t=anBoard[1][23];
+	//assert(anBoard[0][0]<64);
 	if (t==1 && anBoard[0][0]<64) {
 		int cap=0;
 		for(int d1=1; d1<7; ++d1)
@@ -833,6 +834,7 @@ real *ConvertToInputVector(int anBoard[2][25])
 	
 	
 	t=anBoard[0][23];
+	//assert(anBoard[1][0]<64);
 	if (t==1 && anBoard[1][0]<64) {
 		int cap=0;
 		for(int d1=1; d1<7; ++d1)
@@ -870,8 +872,8 @@ real *ConvertToInputVector(int anBoard[2][25])
 	}
 	
 #endif
-	vec[NUM_INPUTS-2] =  (real) (anBoard[1][24])/((real)15.0);
-	vec[NUM_INPUTS-1] = -(real) (anBoard[0][24])/((real)15.0);
+	vec[NUM_INPUTS-2] =  (real) (anBoard[1][24])/((real)2.0);
+	vec[NUM_INPUTS-1] =  (real) (anBoard[0][24])/((real)2.0);
 	return &vec[0];
 }
 
@@ -1015,9 +1017,10 @@ int GameOver(int anBoard[ 2 ][ 25 ], real arOutput[NUM_OUTPUTS])
 	static real noise = 1/10000.0f;
 	
 	for(int i = OUT_WIN; i <= OUT_LOSEDOUBLE; ++i) {
-		if( arOutput[i] < noise ) {
+		if( arOutput[i] < noise ) 
 			arOutput[i] = 0.0;
-		}
+		else if ((1-arOutput[i])<noise)
+			arOutput[i] = 1.0;
 	}
 
 	return 0;
