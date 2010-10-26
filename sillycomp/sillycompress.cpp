@@ -5,6 +5,8 @@
 #include <QList>
 #include <QDebug>
 
+#include <iostream>
+
 class element {
 public:
     int value;
@@ -101,6 +103,7 @@ int SillyCompress::Compress(void)
     file2.close();
     qDebug() << sum/8 << "/" << m_originalSize << " "<< 100* ( (m_originalSize-sum/8.0)/m_originalSize) << "%";
 
+    std::cin >> b;
     return 0;
 }
 
