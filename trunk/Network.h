@@ -2,9 +2,16 @@
 #define NETWORK_H
 
 #include <QWidget>
+#define USEUPNP
+#ifdef USEUPNP
+#include <libtorrent/session.hpp>
+
+
+#endif
 
 class QTcpServer;
 class QTcpSocket;
+
 
 #define MSG_Text		1
 #define MSG_Identity		2
@@ -45,7 +52,7 @@ private slots:
     void readNet(void);
     void socketError();
     void gotConnection();
-
+    void slotConnectedAsClient();
     void internalLostConnection();
 
 
@@ -54,6 +61,11 @@ private:
     QTcpServer	*m_server;
     QTcpSocket	*m_client;
     quint16	m_blockSize;
+#ifdef USEUPNP
+    libtorrent::session m_session;
+    libtorrent::upnp    *m_upnp;
+    libtorrent::natpmp  *m_natpmp;
+#endif
 
 };
 
