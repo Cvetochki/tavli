@@ -1,6 +1,8 @@
 #include "settings.h"
 
 #include <QLineEdit>
+#include <QHostAddress>
+#include <QHostInfo>
 
 SettingsDialog::SettingsDialog(QWidget *parent)
     : QDialog(parent)
@@ -44,5 +46,16 @@ void SettingsDialog::network_textchanged(QString str)
 
 int SettingsDialog::isValidIP(QString str)
 {
-    return 1;
+    QHostAddress addr;
+    if (addr.setAddress(str))
+        return 1;
+
+    QHostInfo info = QHostInfo::fromName(str);
+    if (!info.addresses().isEmpty()) {
+         QHostAddress address = info.addresses().first();
+         // use the first IP address
+         Ui_settingsDlg::remoteIP->setToolTip(address.toString());
+         return 1;
+    }
+    return 0;
 }
