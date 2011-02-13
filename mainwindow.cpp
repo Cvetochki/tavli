@@ -696,3 +696,4 @@ void MainWindow::setBoardFromPositionID(QString positionID)
     //	}
     m_board->setBoard(m_anBoard);
 }
+
