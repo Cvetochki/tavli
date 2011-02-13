@@ -5,6 +5,12 @@
 #include <QHostAddress>
 
 #include <iostream>
+#ifdef USEUPNP
+#include <libtorrent/upnp.hpp>
+#include <libtorrent/natpmp.hpp>
+#include <libtorrent/alert.hpp>
+#include <libtorrent/alert_types.hpp>
+#endif
 
 Network::Network(QWidget *parent)
     :
@@ -13,6 +19,33 @@ Network::Network(QWidget *parent)
     m_parent(parent),
     m_blockSize(0)
 {
+#ifdef USEUPNP
+    m_session.set_severity_level(libtorrent::alert::debug);
+    m_upnp = m_session.start_upnp();
+    m_natpmp = m_session.start_natpmp();
+    int ret= m_upnp->add_mapping(libtorrent::upnp::tcp,1971,1971);
+    int nat= m_natpmp->add_mapping(libtorrent::natpmp::tcp,1971,1971);
+    std::cout << "Ret: " << ret << m_upnp->router_model() <<std::endl;
+    std::cout << "Nat: " << nat <<std::endl;
+    //libtorrent::alert *al;
+    std::auto_ptr<libtorrent::alert> al;
+
+    al=m_session.pop_alert();
+    while (al.get()) {
+        if (libtorrent::portmap_alert* p = dynamic_cast<libtorrent::portmap_alert*>(al.get()))
+        {
+            std::cout << p->message() <<al->message() << std::endl;
+        }
+        else if (libtorrent::portmap_error_alert* p = dynamic_cast<libtorrent::portmap_error_alert*>(al.get()))
+        {
+            std::cout << al->message() << std::endl;
+        } else {
+            std::cout << "Some unexpected alert: " << al->message() << std::endl;
+        }
+        al=m_session.pop_alert();
+    }
+
+#endif
     m_server = new QTcpServer(this);
     m_listeningPort=1971;
     while(!m_server->listen(QHostAddress::Any,m_listeningPort)) {
@@ -24,6 +57,11 @@ Network::Network(QWidget *parent)
 
 Network::~Network(void)
 {
+#ifdef USEUPNP
+
+    m_session.stop_natpmp();
+    m_session.stop_upnp();
+#endif
 }
 
 void Network::connectTo(QString str)
@@ -31,13 +69,29 @@ void Network::connectTo(QString str)
     m_client= new QTcpSocket(this);
     connect(m_client,SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(socketError()));
     m_client->connectToHost(str,1971);
+    connect(m_client,SIGNAL(connected()),this,SLOT(slotConnectedAsClient()));
+    connect(m_client,SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(socketError()));
+    /*
+    std::cout << "Gonna wait for connection..." << std::endl;
     if (m_client->waitForConnected()) {
         connect(m_client,SIGNAL(readyRead()), this, SLOT(readNet()));
         connect(m_client,SIGNAL(disconnected()),this,SLOT(lostConnection()));
         m_connected=1;
-		m_activeConnection=1;
-    }
+        m_activeConnection=1;
+    } else
+        std::cout << "Nope, no connection." << std::endl;
+        */
 }
+
+void Network::slotConnectedAsClient(void)
+{
+    connect(m_client,SIGNAL(readyRead()), this, SLOT(readNet()));
+    connect(m_client,SIGNAL(disconnected()),this,SLOT(internalLostConnection()));
+    m_connected=1;
+    m_activeConnection=1;
+    emit connectedAsServer(m_client->peerAddress().toString());
+}
+
 void Network::gotConnection(void)
 {
     m_client=m_server->nextPendingConnection();
