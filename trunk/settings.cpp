@@ -4,6 +4,7 @@
 #include <QHostAddress>
 #include <QHostInfo>
 
+#include <iostream>
 SettingsDialog::SettingsDialog(QWidget *parent)
     : QDialog(parent)
 {
@@ -50,6 +51,12 @@ int SettingsDialog::isValidIP(QString str)
     if (addr.setAddress(str))
         return 1;
 
+    if (isNumericOnly(str)) {
+        std::cout << "ok, numeric and not passing through...plain invalid." << std::endl;
+        return 0;
+    }
+
+    std::cout << "Passing through to dns lookup." << std::endl;
     QHostInfo info = QHostInfo::fromName(str);
     if (!info.addresses().isEmpty()) {
          QHostAddress address = info.addresses().first();
@@ -58,4 +65,14 @@ int SettingsDialog::isValidIP(QString str)
          return 1;
     }
     return 0;
+}
+
+int SettingsDialog::isNumericOnly(QString str)
+{
+    static QString numerical = "0123456789.";
+
+    for(int i=0; i<str.length(); ++i)
+        if (numerical.indexOf(str.at(i))==-1)
+            return 0;
+    return 1;
 }

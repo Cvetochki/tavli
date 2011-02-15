@@ -13,6 +13,9 @@ public:
     void markState(void);
     bool isChanged(void);
     int isValidIP(QString str);
+
+private:
+    int isNumericOnly(QString str);
 private slots:
     void network_textchanged(QString str);
 };
