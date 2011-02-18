@@ -2,7 +2,7 @@
 #define NETWORK_H
 
 #include <QWidget>
-#define USEUPNP
+//#define USEUPNP
 #ifdef USEUPNP
 #include <libtorrent/session.hpp>
 
