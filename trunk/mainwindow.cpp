@@ -329,11 +329,22 @@ bool MainWindow::saveAs()
 
 void MainWindow::about()
 {
+    /*
     QMessageBox::about(this, tr("About Tavli"),
                        tr("An application to play the three greek variations "
                           "of backgammon.\n\n"
                           "Programmed by Alkis <a href=\"http://redlumf.blogspot.com\">here</a>"));
     //"Programmed by Alkis http://redlumf.blogspot.com"));
+    */
+    QMessageBox msgbox;
+    msgbox.setWindowTitle(tr("About Tavli"));
+    msgbox.setText(tr("An application to play the three greek variations "
+                   "of backgammon.\n\n"
+                   "Programmed by <a href='http://redlumf.blogspot.com'>Alkis</a>"));
+    msgbox.setTextFormat(Qt::RichText);
+    msgbox.setIconPixmap(QPixmap(":/images/tavli.png"));
+    //msgbox.setIcon(QMessageBox::Information);
+    msgbox.exec();
 }
 
 void MainWindow::documentWasModified()
