@@ -282,7 +282,7 @@ void MainWindow::newFile()
         if (rIP.isEmpty())
             return;
         m_network->connectTo(rIP);
-        if (m_network->m_connected) {
+        if (m_network->isConnected()) {
             connect(msgInput,SIGNAL(returnPressed()),this,SLOT(sendTextMsg()));
             m_activeConnection=1;
             m_network->netSendGameSettings(name,

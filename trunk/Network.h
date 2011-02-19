@@ -26,8 +26,8 @@ class Network: public QObject
     Q_OBJECT
 public:
     int	m_listeningPort;
-    int	m_connected;
-    int	m_activeConnection;
+
+    //int	m_activeConnection;
 
     Network(QWidget *parent);
     ~Network(void);
@@ -39,6 +39,7 @@ public:
     void netSendGameSettings(QString name,int matchLength,int portes,int plakoto,int fevga);
     void closeConnection(void);
 
+    bool isConnected();
 signals:
     void NetworkError(QString str);
     void connectedAsServer(QString remoteHost);
@@ -57,9 +58,10 @@ private slots:
 
 
 private:
+    bool        m_connected;
     QWidget	*m_parent;
     QTcpServer	*m_server;
-    QTcpSocket	*m_client;
+    QTcpSocket	*m_socket;
     quint16	m_blockSize;
 #ifdef USEUPNP
     libtorrent::session m_session;
