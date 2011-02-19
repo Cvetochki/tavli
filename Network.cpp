@@ -14,8 +14,8 @@
 
 Network::Network(QWidget *parent)
     :
-    m_connected(0),
-    m_activeConnection(0),
+    m_connected(false),
+    //m_activeConnection(0),
     m_parent(parent),
     m_blockSize(0)
 {
@@ -64,70 +64,45 @@ Network::~Network(void)
 #endif
 }
 
+bool Network::isConnected(void)
+{
+    return m_connected;
+}
+
 void Network::connectTo(QString str)
 {
-    m_client= new QTcpSocket(this);
-    connect(m_client,SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(socketError()));
-    m_client->connectToHost(str,1971);
-    connect(m_client,SIGNAL(connected()),this,SLOT(slotConnectedAsClient()));
-    connect(m_client,SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(socketError()));
-    /*
-    std::cout << "Gonna wait for connection..." << std::endl;
-    if (m_client->waitForConnected()) {
-        connect(m_client,SIGNAL(readyRead()), this, SLOT(readNet()));
-        connect(m_client,SIGNAL(disconnected()),this,SLOT(lostConnection()));
-        m_connected=1;
-        m_activeConnection=1;
-    } else
-        std::cout << "Nope, no connection." << std::endl;
-        */
+    m_socket= new QTcpSocket(this);
+    m_socket->connectToHost(str,1971);
+    connect(m_socket,SIGNAL(connected()),this,SLOT(slotConnectedAsClient()));
+    connect(m_socket,SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(socketError()));
 }
 
 void Network::slotConnectedAsClient(void)
 {
-    connect(m_client,SIGNAL(readyRead()), this, SLOT(readNet()));
-    connect(m_client,SIGNAL(disconnected()),this,SLOT(internalLostConnection()));
-    m_connected=1;
-    m_activeConnection=1;
-    emit connectedAsServer(m_client->peerAddress().toString());
+    connect(m_socket,SIGNAL(readyRead()), this, SLOT(readNet()));
+    connect(m_socket,SIGNAL(disconnected()),this,SLOT(internalLostConnection()));
+    connect(m_socket,SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(socketError()));
+    m_connected=true;
+    emit connectedAsServer(m_socket->peerAddress().toString());
 }
 
 void Network::gotConnection(void)
 {
-    m_client=m_server->nextPendingConnection();
-    connect(m_client,SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(socketError()));
-    connect(m_client,SIGNAL(readyRead()), this, SLOT(readNet()));
-    connect(m_client,SIGNAL(disconnected()),this,SLOT(internalLostConnection()));
-    /*
-	QMessageBox::StandardButton ret;
-	ret = QMessageBox::warning(m_parent, tr("Tavli"),
-					tr("A remote host (at %1) is trying to connect...\n"
-					"Do you want to allow connection?").arg(m_client->peerAddress().toString()),
-					QMessageBox::Yes | QMessageBox::No);
-	if (ret != QMessageBox::Yes) {
-	    disconnect(m_client, 0, 0, 0);
-		m_client->disconnectFromHost();
-		m_client->deleteLater();
-	} else {
-		emit connectedAsServer();
-
-		m_activeConnection=1;
-	}
-	*/
-    m_activeConnection=1;
-    emit connectedAsServer(m_client->peerAddress().toString());
+    m_socket=m_server->nextPendingConnection();
+    slotConnectedAsClient();
 }
 
 void Network::closeConnection(void)
 {
-    disconnect(m_client, 0, 0, 0);
-    m_client->disconnectFromHost();
-    m_client->deleteLater();
-    m_activeConnection=0;
+    disconnect(m_socket, 0, 0, 0);
+    m_socket->disconnectFromHost();
+    m_socket->deleteLater();
+    m_connected=false;
 }
 void Network::socketError()
 {
-    emit NetworkError(m_client->errorString());
+    m_connected=false;
+    emit NetworkError(m_socket->errorString());
 }
 
 void Network::netSendText(QString str)
@@ -140,8 +115,8 @@ void Network::netSendText(QString str)
     out << str;
     out.device()->seek(0);
     out << (quint16)(block.size() - sizeof(quint16));
-    m_client->write(block);
-    m_client->flush();
+    m_socket->write(block);
+    m_socket->flush();
 }
 
 void Network::netSendMovingPawn(int x,int y)
@@ -155,8 +130,8 @@ void Network::netSendMovingPawn(int x,int y)
     out << y;
     out.device()->seek(0);
     out << (quint16)(block.size() - sizeof(quint16));
-    m_client->write(block);
-    m_client->flush();
+    m_socket->write(block);
+    m_socket->flush();
 }
 
 void Network::netSendGameSettings(QString name,int matchLength,int portes,int plakoto,int fevga)
@@ -173,20 +148,20 @@ void Network::netSendGameSettings(QString name,int matchLength,int portes,int pl
     out << fevga;
     out.device()->seek(0);
     out << (quint16)(block.size() - sizeof(quint16));
-    m_client->write(block);
-    m_client->flush();
+    m_socket->write(block);
+    m_socket->flush();
 }
 
 void Network::readNet(void)
 {
-    QDataStream in(m_client);
+    QDataStream in(m_socket);
     in.setVersion(QDataStream::Qt_4_0);
     if (m_blockSize == 0) {
-        if (m_client->bytesAvailable() < (int)sizeof(quint16))
+        if (m_socket->bytesAvailable() < (int)sizeof(quint16))
             return;
         in >> m_blockSize;
     }
-    if (m_client->bytesAvailable() < m_blockSize)
+    if (m_socket->bytesAvailable() < m_blockSize)
         return;
     quint16 type;
     int x,y;
@@ -221,8 +196,8 @@ void Network::readNet(void)
 }
 void Network::internalLostConnection(void)
 {
-    m_client->deleteLater();
+    m_socket->deleteLater();
     emit lostConnection();
     //
-    m_activeConnection=0;
+    m_connected=false;
 }

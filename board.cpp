@@ -354,7 +354,7 @@ void board::mouseMoveEvent(QMouseEvent *qmouseevent)
 
     if (m_showdrag) {
         mousepos = qmouseevent->pos();
-        if (m_network->m_activeConnection) {
+        if (m_network->isConnected()) {
             if (!(++c%2)) {
                 m_network->netSendMovingPawn(mousepos.x(),mousepos.y());
                 QString str=QString::number(++send);
