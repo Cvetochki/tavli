@@ -39,7 +39,7 @@
 #endif
 
 MainWindow::MainWindow()
-    :m_activeConnection(0)
+
 {
     m_board = new board(this);
 
@@ -51,7 +51,7 @@ MainWindow::MainWindow()
     connect(m_network,SIGNAL(NetworkError(QString)),this,SLOT(socketError(QString)));
     connect(m_network,SIGNAL(NetworkRcvMsg(QString)),this,SLOT(rcvMsg(QString)));
     connect(m_network,SIGNAL(NetMovingPawn(int,int)),m_board,SLOT(netMove(int,int)));//,Qt::QueuedConnection);
-    connect(m_network,SIGNAL(connectedAsServer(QString)),this,SLOT(gotConnection(QString)));
+    connect(m_network,SIGNAL(connected(QString)),this,SLOT(gotConnection(QString)));
     connect(m_network,SIGNAL(lostConnection()),this,SLOT(lostConnection()));
     connect(m_network,SIGNAL(NetGameSettings(QString,int,int,int,int)),this,SLOT(slotGameSettings(QString,int,int,int,int)));
 
@@ -141,7 +141,7 @@ void MainWindow::controlsOnConnection(void)
 {
     msgInput->show();
     connect(msgInput,SIGNAL(returnPressed()),this,SLOT(sendTextMsg()));
-    m_activeConnection=1;
+
     m_statusLabel->setText(tr("Connected"));
     m_statusLabel->setToolTip(tr("Connection established with %1").arg(m_remoteHost));
 }
@@ -150,7 +150,7 @@ void MainWindow::controlsOffConnection(void)
 {
     msgInput->hide();
 
-    m_activeConnection=0;
+
     m_statusLabel->setText(tr("Not connected"));
     m_statusLabel->setToolTip(tr("Listening on port #%1").arg(m_network->m_listeningPort));
 }
@@ -284,7 +284,7 @@ void MainWindow::newFile()
         m_network->connectTo(rIP);
         if (m_network->isConnected()) {
             connect(msgInput,SIGNAL(returnPressed()),this,SLOT(sendTextMsg()));
-            m_activeConnection=1;
+
             m_network->netSendGameSettings(name,
                                            matchLength,
                                            portes,
@@ -485,16 +485,16 @@ void MainWindow::readSettings()
 } ); // QT_WA
 
 #endif
-QString firstLetter=user.left(1);
-QString rest=user.right(user.length()-1);
-user=firstLetter.toUpper()+rest;
+    QString firstLetter=user.left(1);
+    QString rest=user.right(user.length()-1);
+    user=firstLetter.toUpper()+rest;
 
-QSettings settings("Alkis", "Tavli");
-QPoint pos = settings.value("pos", QPoint(200, 200)).toPoint();
-QSize size = settings.value("size", QSize(400, 400)).toSize();
-m_playerName = settings.value("name",user).toString();
-resize(size);
-move(pos);
+    QSettings settings("Alkis", "Tavli");
+    QPoint pos = settings.value("pos", QPoint(200, 200)).toPoint();
+    QSize size = settings.value("size", QSize(400, 400)).toSize();
+    m_playerName = settings.value("name",user).toString();
+    resize(size);
+    move(pos);
 }
 
 void MainWindow::writeSettings()
@@ -508,7 +508,7 @@ void MainWindow::writeSettings()
 bool MainWindow::maybeSave()
 {
 
-    if (m_activeConnection) {
+    if (m_network->isConnected()) {
         QMessageBox::StandardButton ret;
         ret = QMessageBox::warning(this, tr("Tavli"),
                                    tr("You are currently connected.\n"

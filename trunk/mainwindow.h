@@ -113,7 +113,7 @@ private:
     QTextEdit *msgDisplay;
     QLabel	*m_statusLabel;
 
-    int		m_activeConnection;
+
 };
 
 #endif

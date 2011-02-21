@@ -83,7 +83,7 @@ void Network::slotConnectedAsClient(void)
     connect(m_socket,SIGNAL(disconnected()),this,SLOT(internalLostConnection()));
     connect(m_socket,SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(socketError()));
     m_connected=true;
-    emit connectedAsServer(m_socket->peerAddress().toString());
+    emit connected(m_socket->peerAddress().toString());
 }
 
 void Network::gotConnection(void)

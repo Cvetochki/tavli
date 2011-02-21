@@ -312,10 +312,10 @@ void board::paintEvent(QPaintEvent *)
         QFontMetrics fm(font);
         int pixelsWide = fm.width(m_msg);
         int pixelsHigh = fm.lineSpacing();// .height();
-        int x=(600-pixelsWide)/2;
+        int x=(width()-pixelsWide)/2;
         int y=(height()-pixelsHigh)/2;
         qpainter.setBrush(QColor(200, 200, 200, 200));
-        QPen mypen(QColor(255, 255, 255, 200));
+        QPen mypen(QColor(255, 255, 255, 25));
         mypen.setWidth(4);
         qpainter.setPen( mypen );
         qpainter.drawRect(x-10,y-10,pixelsWide+20,pixelsHigh+20);
@@ -406,8 +406,11 @@ void board::setRoll(int d1, int d2)
 {
     m_d[0]=d1;
     m_d[1]=d2;
-    if (d1==d2)
+    if (d1==d2) {
         m_d[2]=m_d[3]=d1;
+    } else {
+        m_d[2]=m_d[3]=0;
+    }
     update();
 }
 void board::resizeEvent ( QResizeEvent *re )

@@ -42,7 +42,7 @@ public:
     bool isConnected();
 signals:
     void NetworkError(QString str);
-    void connectedAsServer(QString remoteHost);
+    void connected(QString remoteHost);
     void NetworkRcvMsg(QString str);
     void NetMovingPawn(int x,int y);
     void NetGameSettings(QString str,int matchLength,int portes,int plakoto,int fevga);
