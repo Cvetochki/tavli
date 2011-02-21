@@ -10,7 +10,7 @@ DEPENDPATH += . debug
 INCLUDEPATH += .
 
 #win32:LIBS	+= freetype.lib
-unix:LIBS += -ltorrent-rasterbar
+#unix:LIBS += -ltorrent-rasterbar
 
 # Input
 HEADERS += board.h mainwindow.h player.h settings.h Network.h
