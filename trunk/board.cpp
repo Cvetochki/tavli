@@ -27,6 +27,7 @@
 #include <QMouseEvent>
 #include <QTimer>
 
+#include <QDebug>
 #include <iostream>
 
 board::board(QWidget *parent)
@@ -382,19 +383,29 @@ void board::mousePressEvent ( QMouseEvent *me)
         boardMsg("We could roll the dice here...");
         return;
     }
+    if (me->button()==Qt::LeftButton) {
+        boardMsg("emit needsToGrab(i)");
+        // logic/board should be checked on parent
+        // if piece can be grabbed, switch move_mode on
+        // else some sound/msg to inform that there is no piece there?
+    }
     /*
 	if (m_sideToPlay==None) {
 		boardMsg(tr("You are not currently in a game"));
 		return;
 	}
-	*/
+    */
     setCursor(Qt::BlankCursor);
     m_showdrag=true;
     update();
+    //qDebug() << me->type();
 }
 
-void board::mouseReleaseEvent ( QMouseEvent *)
+void board::mouseReleaseEvent ( QMouseEvent *me)
 {
+    if (me->button()==Qt::LeftButton) {
+        boardMsg("finish move (if on move_mode)");
+    }
     m_showdrag=false;
     //anBoard[1][23]=15;
     setCursor(Qt::ArrowCursor);
