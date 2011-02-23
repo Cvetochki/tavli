@@ -83,12 +83,15 @@ private:
     QTimer *m_timer;
 
     QString m_msg;
-
+    bool    m_holdingPiece;
+    int     m_grabFrom;
 private slots:
     void boardMsgTimeOut();
     void netMove(int x, int y);
 
 signals:
     void Log(QString str);
+    void requestGrab(int from);
+    void requestMove(int from, int to);
 };
 #endif
