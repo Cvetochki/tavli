@@ -34,7 +34,8 @@ board::board(QWidget *parent)
     : QWidget(parent),
     m_network(0),
     m_boardMsgActive(0),
-    m_netmove(false)
+    m_netmove(false),
+    m_holdingPiece(false)
 {
     m_sideToPlay=None;
     m_d[0]=m_d[1]=-1;
@@ -273,7 +274,7 @@ void board::paintEvent(QPaintEvent *)
         }
 
     }
-    if (m_showdrag || m_netmove) {
+    if (m_holdingPiece || m_netmove) {
         anBoard[1][23]=14;
         qpainter.drawPixmap(mousepos.x()-m_pawnsize/2,mousepos.y()-m_pawnsize/2,m_pred);//,0,0,width(),height());
     }
@@ -309,13 +310,13 @@ void board::paintEvent(QPaintEvent *)
     }
 
     if (m_boardMsgActive) {
-        QFont font("arial", 24);
+        QFont font("arial", 12);
         QFontMetrics fm(font);
         int pixelsWide = fm.width(m_msg);
         int pixelsHigh = fm.lineSpacing();// .height();
         int x=(width()-pixelsWide)/2;
         int y=(height()-pixelsHigh)/2;
-        qpainter.setBrush(QColor(200, 200, 200, 200));
+        qpainter.setBrush(QColor(200, 200, 200, 50));
         QPen mypen(QColor(255, 255, 255, 25));
         mypen.setWidth(4);
         qpainter.setPen( mypen );
@@ -353,7 +354,7 @@ void board::mouseMoveEvent(QMouseEvent *qmouseevent)
     static int send=0;
     static int c=0;
 
-    if (m_showdrag) {
+    if (m_holdingPiece) {
         mousepos = qmouseevent->pos();
         if (m_network->isConnected()) {
             if (!(++c%2)) {
@@ -385,6 +386,8 @@ void board::mousePressEvent ( QMouseEvent *me)
     }
     if (me->button()==Qt::LeftButton) {
         boardMsg("emit needsToGrab(i)");
+        m_grabFrom=1;
+        emit requestGrab(m_grabFrom);
         // logic/board should be checked on parent
         // if piece can be grabbed, switch move_mode on
         // else some sound/msg to inform that there is no piece there?
@@ -403,8 +406,10 @@ void board::mousePressEvent ( QMouseEvent *me)
 
 void board::mouseReleaseEvent ( QMouseEvent *me)
 {
-    if (me->button()==Qt::LeftButton) {
+    if (me->button()==Qt::LeftButton && m_holdingPiece) {
+        emit requestMove(m_grabFrom,2);
         boardMsg("finish move (if on move_mode)");
+        qDebug() << me->x() << "," << me->y();
     }
     m_showdrag=false;
     //anBoard[1][23]=15;
