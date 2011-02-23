@@ -398,7 +398,8 @@ void board::mousePressEvent ( QMouseEvent *me)
 		return;
 	}
     */
-    setCursor(Qt::BlankCursor);
+
+    //setCursor(Qt::BlankCursor);
     m_showdrag=true;
     update();
     //qDebug() << me->type();
@@ -411,9 +412,9 @@ void board::mouseReleaseEvent ( QMouseEvent *me)
         boardMsg("finish move (if on move_mode)");
         qDebug() << me->x() << "," << me->y();
     }
-    m_showdrag=false;
-    //anBoard[1][23]=15;
-    setCursor(Qt::ArrowCursor);
+
+
+    //setCursor(Qt::ArrowCursor);
 
     update();
 }
