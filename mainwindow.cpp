@@ -98,18 +98,11 @@ MainWindow::MainWindow()
     setWindowIcon(QIcon(":/images/tavli.png"));
     
     setCentralWidget(center);
+
     QString boardID=getPositionID(board::Plakoto,m_anBoard);
     msgDisplay->append(boardID);
     msgDisplay->append("$Revision$");
     msgDisplay->append(tr("Welcome to Tavli\nOh, and good luck...you'll actually need it ;-)\n"));
-    //msgDisplay->append("http://redlumf.blogspot.com");
-    //msgDisplay->append("<a href=\"http://en.wikipedia.org/wiki/Cognate\"><span style=\" text-decoration: underline; color:#0000ff;\">cognate</span></a>");
-    // 	QString t;
-    // 	for(int i=0; i<100; ++i) {
-    // 		t=QString::number( i );
-    // 		msgDisplay->setTextColor(QColor(rand()%255,rand()%255,rand()%255));
-    // 		msgDisplay->append(t);
-    // 	}
     msgDisplay->moveCursor(QTextCursor::End);
     msgDisplay->ensureCursorVisible ();
     msgInput->hide();
@@ -611,7 +604,7 @@ QString MainWindow::getPositionID(board::GameType game,int board[2][25])
             str+="0";
         }
     }
-    msgDisplay->append(str);
+    //msgDisplay->append(str);
     int len=str.length();
     while(len%8) {
         str+="0";
@@ -646,8 +639,8 @@ QString MainWindow::getPositionID(board::GameType game,int board[2][25])
         ar[pos++]=c;
         start+=8;
     } while(start<end);
-    msgDisplay->append(rev);
-    msgDisplay->append(hex);
+   // msgDisplay->append(rev);
+   // msgDisplay->append(hex);
     rev=ar.toBase64();
     rev=rev.left(rev.length()-2);
     return rev;

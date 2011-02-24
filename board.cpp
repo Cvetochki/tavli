@@ -87,7 +87,6 @@ void board::setGame(GameType n)
     update();
     std::cout << "Game set to " << n <<std::endl;
 }
-//#include "board.moc"
 
 /*!
 \fn board::paintEvent(QPaintEvent *)
