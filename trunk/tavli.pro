@@ -13,9 +13,12 @@ INCLUDEPATH += .
 #unix:LIBS += -ltorrent-rasterbar
 
 # Input
-HEADERS += board.h mainwindow.h player.h settings.h Network.h
+HEADERS += board.h mainwindow.h player.h settings.h Network.h \
+    basicboard.h \
+    tavli.h
 FORMS += settings.ui
-SOURCES += board.cpp main.cpp mainwindow.cpp player.cpp settings.cpp Network.cpp
+SOURCES += board.cpp main.cpp mainwindow.cpp player.cpp settings.cpp Network.cpp \
+    basicboard.cpp
 RESOURCES += tavli.qrc
 TRANSLATIONS += tavli_el.ts
 

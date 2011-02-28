@@ -41,13 +41,13 @@
 MainWindow::MainWindow()
 
 {
-    m_board = new board(this);
+    m_board = new basicBoard(this);
 
     connect(m_board,SIGNAL(Log(QString)),this,SLOT(LogMsg(QString)));
 
 
     m_network = new Network(this);
-    m_board->setNetwork(m_network);
+    //m_board->setNetwork(m_network);
     connect(m_network,SIGNAL(NetworkError(QString)),this,SLOT(socketError(QString)));
     connect(m_network,SIGNAL(NetworkRcvMsg(QString)),this,SLOT(rcvMsg(QString)));
     connect(m_network,SIGNAL(NetMovingPawn(int,int)),m_board,SLOT(netMove(int,int)));//,Qt::QueuedConnection);
@@ -99,7 +99,7 @@ MainWindow::MainWindow()
     
     setCentralWidget(center);
 
-    QString boardID=getPositionID(board::Plakoto,m_anBoard);
+    QString boardID=getPositionID(Plakoto,m_anBoard);
     msgDisplay->append(boardID);
     msgDisplay->append("$Revision$");
     msgDisplay->append(tr("Welcome to Tavli\nOh, and good luck...you'll actually need it ;-)\n"));
@@ -202,7 +202,7 @@ void MainWindow::createBoard(void)
 	m_anBoard[0][23]=m_anBoard[1][23]=2;
 	*/
     m_board->setBoard(m_anBoard);
-    m_board->setGame(board::Plakoto);
+    m_board->setGame(Plakoto);
 
 }
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -590,11 +590,11 @@ void MainWindow::roll()
 }
 
 
-QString MainWindow::getPositionID(board::GameType game,int board[2][25])
+QString MainWindow::getPositionID(GameType game,int board[2][25])
 {
     QString str="";
 
-    if (game==board::Plakoto) {
+    if (game==Plakoto) {
         for(int j=0; j<2; ++j)
             for(int i=0; i<25; ++i) {
             int t=board[j][i];

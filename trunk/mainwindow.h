@@ -25,7 +25,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "board.h"
+#include "basicboard.h"
 
 class QVBoxLayout;
 class QAction;
@@ -78,13 +78,13 @@ private:
     bool saveFile(const QString &fileName);
     void setCurrentFile(const QString &fileName);
     QString strippedName(const QString &fullFileName);
-    QString getPositionID(board::GameType game,int board[2][25]);
+    QString getPositionID(GameType game,int board[2][25]);
     void setBoardFromPositionID(QString positionID);
 
     void controlsOnConnection(void);
     void controlsOffConnection(void);
 
-    board *m_board;
+    basicBoard *m_board;
     int    m_anBoard[2][25];
 
     Network *m_network;
