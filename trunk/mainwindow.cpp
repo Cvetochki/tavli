@@ -39,39 +39,19 @@
 #endif
 
 MainWindow::MainWindow()
-
 {
-    m_board = new basicBoard(this);
-
-    connect(m_board,SIGNAL(Log(QString)),this,SLOT(LogMsg(QString)));
-
-
     m_network = new Network(this);
     //m_board->setNetwork(m_network);
-    connect(m_network,SIGNAL(NetworkError(QString)),this,SLOT(socketError(QString)));
-    connect(m_network,SIGNAL(NetworkRcvMsg(QString)),this,SLOT(rcvMsg(QString)));
-    connect(m_network,SIGNAL(NetMovingPawn(int,int)),m_board,SLOT(netMove(int,int)));//,Qt::QueuedConnection);
-    connect(m_network,SIGNAL(connected(QString)),this,SLOT(gotConnection(QString)));
-    connect(m_network,SIGNAL(lostConnection()),this,SLOT(lostConnection()));
-    connect(m_network,SIGNAL(NetGameSettings(QString,int,int,int,int)),this,SLOT(slotGameSettings(QString,int,int,int,int)));
-
-
-
-
-    createBoard();
     createActions();
     createMenus();
     createToolBars();
-    
-
     readSettings();
-
-    //connect(msgDisplay->document(), SIGNAL(contentsChanged()),
-    //        this, SLOT(documentWasModified()));
-    QWidget *center=new QWidget(this);
+    QWidget *left=new QWidget(this);
     QWidget *right=new QWidget(this);
+    m_board = new basicBoard(left);
+
     //#if QT_VERSION >= 0x040300
-    center->setContentsMargins(0,0,0,0);
+    left->setContentsMargins(0,0,0,0);
     //#endif
     QLabel *label=new QLabel(right);
     msgInput = new QLineEdit(right);
@@ -81,7 +61,7 @@ MainWindow::MainWindow()
     //msgDisplay->setFocusPolicy(Qt::NoFocus);
     //msgDisplay->setTextInteractionFlags (Qt::LinksAccessibleByMouse);
     msgDisplay->setMinimumWidth(300);
-    QHBoxLayout *mainLayout = new QHBoxLayout(center);
+    QHBoxLayout *mainLayout = new QHBoxLayout(left);
     QVBoxLayout *secLayout = new QVBoxLayout(right);
 #if QT_VERSION >= 0x040300
     mainLayout->setContentsMargins(0,0,0,0);
@@ -97,10 +77,10 @@ MainWindow::MainWindow()
 
     setWindowIcon(QIcon(":/images/tavli.png"));
     
-    setCentralWidget(center);
+    setCentralWidget(left);
 
-    QString boardID=getPositionID(Plakoto,m_anBoard);
-    msgDisplay->append(boardID);
+    //QString boardID=getPositionID(Plakoto,m_anBoard);
+    //msgDisplay->append(boardID);
     msgDisplay->append("$Revision$");
     msgDisplay->append(tr("Welcome to Tavli\nOh, and good luck...you'll actually need it ;-)\n"));
     msgDisplay->moveCursor(QTextCursor::End);
@@ -110,6 +90,17 @@ MainWindow::MainWindow()
     //setBoardFromPositionID("dummy");
     createStatusBar();
     statusBar()->showMessage(tr("Listening on port #%1").arg(m_network->m_listeningPort), 10000);
+
+    connect(m_network,SIGNAL(NetworkError(QString)),this,SLOT(socketError(QString)));
+    connect(m_network,SIGNAL(NetworkRcvMsg(QString)),this,SLOT(rcvMsg(QString)));
+    connect(m_network,SIGNAL(NetMovingPawn(int,int)),m_board,SLOT(netMove(int,int)));//,Qt::QueuedConnection);
+    connect(m_network,SIGNAL(connected(QString)),this,SLOT(gotConnection(QString)));
+    connect(m_network,SIGNAL(lostConnection()),this,SLOT(lostConnection()));
+    connect(m_network,SIGNAL(NetGameSettings(QString,int,int,int,int)),this,SLOT(slotGameSettings(QString,int,int,int,int)));
+
+    connect(m_board,SIGNAL(Log(QString)),this,SLOT(LogMsg(QString)));
+
+    createBoard();
 }
 
 void MainWindow::gotConnection(QString host)
