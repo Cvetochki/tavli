@@ -12,7 +12,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->lineEdit->setText("g++ -O3");
+    ui->lineEdit->setText("icc -O3");
+    ui->plainTextEdit->setPlainText("int foo(int n)\n{\nreturn n/2;\n}\n");
 }
 
 MainWindow::~MainWindow()
@@ -22,6 +23,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_clicked(bool checked)
 {
+    Q_UNUSED(checked);
     QString tmpfilename="/tmp/foo.cpp";
     QString outFilename = "/tmp/foo.S";
     saveFile(tmpfilename);
@@ -32,16 +34,25 @@ void MainWindow::on_pushButton_clicked(bool checked)
     QString program;
     if (largs.count()==0)
         program="g++";
-    else
-        program = largs.at(0);
+    else {
+        if (largs.at(0)=="icc")
+            program="/opt/intel/bin/icc";
+        else
+            program=largs.at(0);
+    }
+
 
     QStringList arguments;
+
     for(int i=1; i<largs.count(); ++i)
         arguments << largs.at(i);
     arguments << "-S" << "-o"<<"/tmp/foo.S" << tmpfilename;
+
+    qDebug() << program << arguments;
     proc.start(program,arguments);
     proc.waitForFinished();
-    //qDebug() << proc.exitStatus();
+    qDebug() << proc.exitStatus()<< proc.readAllStandardError() << proc.readAllStandardError();
+
     loadFile(outFilename);
 }
 
