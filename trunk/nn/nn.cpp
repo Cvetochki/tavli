@@ -338,9 +338,9 @@ int main(int argc, char **argv)
 		++gameCounter;
 		int ng = gameCounter-startGameCounter;
 		double eta = (upto-gameCounter)*elapsed/ng;
-		int etah = (int) (eta/3600);
-		int etam = (int) ((eta-etah*3600)/60);
-		std::cout << "Game #" << gameCounter << " took " << (n-oldn+1) << " moves... ("<<(n/elapsed)<<" moves/sec ETA: "<<etah << ":"<< etam <<")            \r";std::flush(std::cout);
+                int etaHours = (int) (eta/3600);
+                int etaMinutes = (int) ((eta-etaHours*3600)/60);
+                std::cout << "Game #" << gameCounter << " took " << (n-oldn+1) << " moves... ("<<(n/elapsed)<<" moves/sec ETA: "<<etaHours << ":"<< etaMinutes <<")            \r";//std::flush(std::cout);
 		oldn=n;
 		
 	}
