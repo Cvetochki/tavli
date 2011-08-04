@@ -253,7 +253,7 @@ int main(int argc, char **argv)
 			memcpy(anBoardOld, anBoardTrain, sizeof(anBoardOld));
 			GenerateMoves(anBoardTrain,d1,d2);
 
-#define DOPRINT
+//#define DOPRINT
 #ifdef DOPRINT
 			if (!(gameCounter % 1000)) {
 				int anBoardTemp[ 2 ][ 25 ];
