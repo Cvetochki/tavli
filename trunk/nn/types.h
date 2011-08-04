@@ -1,7 +1,7 @@
 #ifndef TYPES_H_
 #define TYPES_H_
 
-typedef float real;
+typedef double real;
 
 #define LEARNING_RATE	0.1
 //#define DECREASE_LEARNING_RATE 
@@ -48,7 +48,7 @@ typedef float real;
 #endif
 
 #define NUM_OUTPUTS 3
-#define NUM_NEURONS 40
+#define NUM_NEURONS 200
 
 #define OUT_WIN			0
 #define OUT_WINDOUBLE	1

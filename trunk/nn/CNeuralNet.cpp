@@ -28,7 +28,7 @@ void CNeuron::setNumOfWeights(int n)
 	real sum=0;
 	for(int i=0; i<m_numOfInputs+1; ++i)
 		sum+=m_w[i]=myRand(-1.0,1.0);
-	//std::cout << "Average = " << sum/m_numOfInputs << std::endl;
+        //std::cout << "Average = " << sum/m_numOfInputs << std::endl;
 }
 
 real CNeuron::myRand(real from, real to)
