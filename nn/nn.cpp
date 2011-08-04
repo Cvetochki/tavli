@@ -312,6 +312,12 @@ int main(int argc, char **argv)
 		} while (!done);//!EvalOver());
 		now=time(&now);
 		double elapsed=difftime(now,start);
+                int ng = gameCounter-startGameCounter;
+                double eta = (upto-gameCounter)*elapsed/ng;
+                int etaHours = (int) (eta/3600);
+                int etaMinutes = (int) ((eta-etaHours*3600)/60);
+                std::cout << "Game #" << gameCounter << " took " << (n-oldn+1) << " moves... ("<<(n/elapsed)<<" moves/sec ETA: "<<etaHours << ":"<< etaMinutes <<")\r";std::flush(std::cout);
+                oldn=n;
 		if ((!(gameCounter %100000) && gameCounter!=startGameCounter) || !gameCounter) {
 			ann.setGameCounter(gameCounter);
 #ifdef GNUBG_LR
@@ -334,15 +340,9 @@ int main(int argc, char **argv)
 #endif
 			ann.saveNet(buff);
 			std::cout << std::endl <<std::endl<<"Saved \""<<buff<<"\"" <<std::endl;
+
 		}
 		++gameCounter;
-		int ng = gameCounter-startGameCounter;
-		double eta = (upto-gameCounter)*elapsed/ng;
-                int etaHours = (int) (eta/3600);
-                int etaMinutes = (int) ((eta-etaHours*3600)/60);
-                std::cout << "Game #" << gameCounter << " took " << (n-oldn+1) << " moves... ("<<(n/elapsed)<<" moves/sec ETA: "<<etaHours << ":"<< etaMinutes <<")            \r";//std::flush(std::cout);
-		oldn=n;
-		
 	}
 	
 //	int d1=RollDice();
