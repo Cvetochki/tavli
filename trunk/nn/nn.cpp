@@ -12,26 +12,6 @@
 #include "CNeuralNet.h"
 
 
-int RollDice(void);
-void InitBoard( int anBoard[ 2 ][ 25 ]);
-void GenerateMoves(int anBoard[2][25],int dice1,int dice2);
-void BenchGenerateMoves(int anBoard[2][25],int dice1,int dice2);
-int ActualGenerateMoves(int anBoard[2][25],int d[],int start, int cPip,int depth,int anMoves[]);
-int ApplySubMove( int anBoard[ 2 ][ 25 ],const int iSrc, const int nRoll);
-int LegalMove( int anBoard[ 2 ][ 25 ], int iSrc, int nPips );
-void SaveMoves(int cMoves, int cPip, int anMoves[],int anBoard[ 2 ][ 25 ]);
-real *GetScore(int anBoard[ 2 ][ 25 ]);
-real *ConvertToInputVector(int anBoard[2][25]);
-void InvertEvaluation( real ar[ NUM_OUTPUTS ] );
-void SwapSides( int anBoard[ 2 ][ 25 ] ) ;
-void printMove(struct _move move);
-void printAllMoves(int d1, int d2);
-int GameOver(int anBoard[ 2 ][ 25 ], real ar[NUM_OUTPUTS]);
-void printBoard(int anBoard[2][25], int step);
-void printFevga(int anBoard[2][25], int step);
-void printPlakoto(int anBoard[2][25], int step);
-void playAgainstHuman(void);
-int getMove(void);
 
 
 struct _move movelist[32000];
@@ -253,7 +233,7 @@ int main(int argc, char **argv)
 			memcpy(anBoardOld, anBoardTrain, sizeof(anBoardOld));
 			GenerateMoves(anBoardTrain,d1,d2);
 
-//#define DOPRINT
+#define DOPRINT
 #ifdef DOPRINT
 			if (!(gameCounter % 1000)) {
 				int anBoardTemp[ 2 ][ 25 ];
@@ -777,17 +757,17 @@ real *ConvertToInputVector(int anBoard[2][25])
 			if (t==1) vec[10*i+0]=1;
 			if (t==2) vec[10*i+1]=1;
 			if (t==3) vec[10*i+2]=1;
-			if (t>3)  vec[10*i+3]=(real)(t-3)/((real)2.0);
+                        if (t>3)  vec[10*i+3]=(real)(t-3)/((real)12.0);
 		}
 		if (t=anBoard[0][i]) {
 			if (t>64) {
 				t-=64;
-				vec[10*i+9]=1;
+                                vec[10*i+9]=-1;
 			}
-			if (t==1) vec[10*i+5]=1;
-			if (t==2) vec[10*i+6]=1;
-			if (t==3) vec[10*i+7]=1;
-			if (t>3)  vec[10*i+8]=(real)(t-3)/((real)2.0);
+                        if (t==1) vec[10*i+5]=-1;
+                        if (t==2) vec[10*i+6]=-1;
+                        if (t==3) vec[10*i+7]=-1;
+                        if (t>3)  vec[10*i+8]=-(real)(t-3)/((real)12.0);
 		}
 	}
 	
@@ -859,7 +839,7 @@ real *ConvertToInputVector(int anBoard[2][25])
 					}
 				}
 			}
-		vec[NUM_INPUTS-3]=cap/((real)36.0);
+                vec[NUM_INPUTS-3]=-cap/((real)36.0);
 #ifdef DEBUGMANAPROPABILITY 
 		if (vec[NUM_INPUTS-3]==1.00) {
 			int inp;
@@ -872,8 +852,8 @@ real *ConvertToInputVector(int anBoard[2][25])
 	}
 	
 #endif
-	vec[NUM_INPUTS-2] =  (real) (anBoard[1][24])/((real)2.0);
-	vec[NUM_INPUTS-1] =  (real) (anBoard[0][24])/((real)2.0);
+        vec[NUM_INPUTS-2] =  -(real) (anBoard[1][24])/((real)15.0);
+        vec[NUM_INPUTS-1] =  (real) (anBoard[0][24])/((real)15.0);
 	return &vec[0];
 }
 
