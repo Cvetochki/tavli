@@ -48,7 +48,7 @@ typedef double real;
 #endif
 
 #define NUM_OUTPUTS 3
-#define NUM_NEURONS 200
+#define NUM_NEURONS 40
 
 #define OUT_WIN			0
 #define OUT_WINDOUBLE	1
@@ -68,4 +68,26 @@ struct _move {
 	real score[NUM_OUTPUTS];
 	int Board[2][25];
 };
+
+int RollDice(void);
+void InitBoard( int anBoard[ 2 ][ 25 ]);
+void GenerateMoves(int anBoard[2][25],int dice1,int dice2);
+void BenchGenerateMoves(int anBoard[2][25],int dice1,int dice2);
+int ActualGenerateMoves(int anBoard[2][25],int d[],int start, int cPip,int depth,int anMoves[]);
+int ApplySubMove( int anBoard[ 2 ][ 25 ],const int iSrc, const int nRoll);
+int LegalMove( int anBoard[ 2 ][ 25 ], int iSrc, int nPips );
+void SaveMoves(int cMoves, int cPip, int anMoves[],int anBoard[ 2 ][ 25 ]);
+real *GetScore(int anBoard[ 2 ][ 25 ]);
+real *ConvertToInputVector(int anBoard[2][25]);
+void InvertEvaluation( real ar[ NUM_OUTPUTS ] );
+void SwapSides( int anBoard[ 2 ][ 25 ] ) ;
+void printMove(struct _move move);
+void printAllMoves(int d1, int d2);
+int GameOver(int anBoard[ 2 ][ 25 ], real ar[NUM_OUTPUTS]);
+void printBoard(int anBoard[2][25], int step);
+void printFevga(int anBoard[2][25], int step);
+void printPlakoto(int anBoard[2][25], int step);
+void playAgainstHuman(void);
+int getMove(void);
+
 #endif /*TYPES_H_*/
