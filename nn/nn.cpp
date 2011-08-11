@@ -27,13 +27,13 @@ void printMove(struct _move move)
 {
 	struct _move mymove=move;
 	
-	for(int i=0; i<mymove.cMoves; ++i) {
+        for(int i=0; i<mymove.partialMoves; ++i) {
 		std::cout << mymove.moves[2*i]+1 << "->";
 		if (mymove.moves[2*i+1]>=0)
 			std::cout << mymove.moves[2*i+1]+1;
 		else
 			std::cout << "off";
-		if (i!=(mymove.cMoves-1)) std::cout <<", ";
+                if (i!=(mymove.partialMoves-1)) std::cout <<", ";
 	}
 	std::cout.precision( std::numeric_limits<real>::digits10 );
 	std::cout << "[" << mymove.score[0] << "/" << mymove.score[1] << "/" << mymove.score[2] << "]"<< std::endl;
@@ -49,7 +49,7 @@ void printAllMoves(int d1, int d2)
 
 int mycompare(const void *left,const void *right)
 {
-	//static int cc=0;
+        static int cc=0;
 	
 	struct _move *l,*r;
 	l=(struct _move *)left;
@@ -65,7 +65,7 @@ int mycompare(const void *left,const void *right)
 	t=r->score[2]-l->score[2];
 	if (t>0) return -1;
 	if (t<0) return 1;
-	//std::cout << "       No shit! "<< ++cc << " " << l->score[2] << " " << r->score[2]<<std::endl;
+        std::cout << "       No shit! "<< ++cc << " " << l->score[2] << " " << r->score[2]<<std::endl;
 	return 0;
 }
 
@@ -87,7 +87,7 @@ int main(int argc, char **argv)
 	CNeuralNet ann(NUM_INPUTS,NUM_NEURONS,NUM_OUTPUTS);
 	nn=&ann;
 	if (argc>=2) {
-		if (startGameCounter=gameCounter=ann.loadNet(argv[1])) {
+                if ((startGameCounter=gameCounter=ann.loadNet(argv[1]))) {
 			std::cout << "Neural net loaded ok. Resuming from "<< gameCounter << std::endl;
 		} else {
 			std::cerr << "Could not load \""<<argv[1]<<"\" for weights."<<std::endl;
@@ -156,29 +156,30 @@ int main(int argc, char **argv)
 				
 				//Let's play the best move now
 				if (numberOfMoves) {
-					for(int i=0; i<movelist[0].cMoves; ++i)
+                                        for(int i=0; i<movelist[0].partialMoves; ++i)
 						ApplySubMove(anBoardTrain,movelist[0].moves[2*i],movelist[0].moves[2*i]-movelist[0].moves[2*i+1]);
 				}
 				SwapSides(anBoardTrain);
-				if (go=GameOver(anBoardTrain,out)) {
+                                if ((go=GameOver(anBoardTrain,out))) {
 					done=1;
-					if (go!=3) current+=GameOver(anBoardTrain,out);
+                                        if (go!=3) current+=go;
+                                        break;
 				}
-				if (!done) {
-					d1=RollDice();
-					d2=RollDice();
-					
-					BenchGenerateMoves(anBoardTrain,d1,d2);
-					if (numberOfMoves) {
-						for(int i=0; i<movelist[0].cMoves; ++i)
-							ApplySubMove(anBoardTrain,movelist[0].moves[2*i],movelist[0].moves[2*i]-movelist[0].moves[2*i+1]);
-					}
-					SwapSides(anBoardTrain);
-					if (go=GameOver(anBoardTrain,out)) {
-						done=1;
-						if (go!=3) bench+=GameOver(anBoardTrain,out);
-					}
-				}
+                                d1=RollDice();
+                                d2=RollDice();
+
+                                BenchGenerateMoves(anBoardTrain,d1,d2);
+                                if (numberOfMoves) {
+                                        for(int i=0; i<movelist[0].partialMoves; ++i)
+                                                ApplySubMove(anBoardTrain,movelist[0].moves[2*i],movelist[0].moves[2*i]-movelist[0].moves[2*i+1]);
+                                }
+                                SwapSides(anBoardTrain);
+                                if ((go=GameOver(anBoardTrain,out))) {
+                                        done=1;
+                                        if (go!=3) bench+=go;
+                                        break;
+                                }
+
 				++n;
 			} while (!done);//!EvalOver());
 			
@@ -192,30 +193,30 @@ int main(int argc, char **argv)
 				BenchGenerateMoves(anBoardTrain,d1,d2);
 				//Let's play the best move now
 				if (numberOfMoves) {
-					for(int i=0; i<movelist[0].cMoves; ++i)
+                                        for(int i=0; i<movelist[0].partialMoves; ++i)
 						ApplySubMove(anBoardTrain,movelist[0].moves[2*i],movelist[0].moves[2*i]-movelist[0].moves[2*i+1]);
 				}
 				SwapSides(anBoardTrain);
-				if (GameOver(anBoardTrain,out)) {
+                                if ((go=GameOver(anBoardTrain,out))) {
 					done=1;
-					bench+=GameOver(anBoardTrain,out);
-					
+                                        bench+=go;
+                                        break;
 				}
-				if (!done) {
-					d1=RollDice();
-					d2=RollDice();
-					
-					GenerateMoves(anBoardTrain,d1,d2);
-					if (numberOfMoves) {
-						for(int i=0; i<movelist[0].cMoves; ++i)
-							ApplySubMove(anBoardTrain,movelist[0].moves[2*i],movelist[0].moves[2*i]-movelist[0].moves[2*i+1]);
-					}
-					SwapSides(anBoardTrain);
-					if (GameOver(anBoardTrain,out)) {
-						done=1;
-						current+=GameOver(anBoardTrain,out);
-					}
-				}
+
+                                d1=RollDice();
+                                d2=RollDice();
+
+                                GenerateMoves(anBoardTrain,d1,d2);
+                                if (numberOfMoves) {
+                                        for(int i=0; i<movelist[0].partialMoves; ++i)
+                                                ApplySubMove(anBoardTrain,movelist[0].moves[2*i],movelist[0].moves[2*i]-movelist[0].moves[2*i+1]);
+                                }
+                                SwapSides(anBoardTrain);
+                                if ((go=GameOver(anBoardTrain,out))) {
+                                        done=1;
+                                        current+=go;
+                                        break;
+                                }
 				++n;
 			} while (!done);//!EvalOver());
 			std::cout << i <<" Current net vs bench-net: "<< current << "/" << bench << " (ppg "<<((float)current-bench)/((i+1)*2)<<")"<< std::endl;
@@ -257,7 +258,7 @@ int main(int argc, char **argv)
 #endif
 			//Let's play the best move now
 			if (numberOfMoves) {
-				for(int i=0; i<movelist[0].cMoves; ++i)
+                                for(int i=0; i<movelist[0].partialMoves; ++i)
 					ApplySubMove(anBoardTrain,movelist[0].moves[2*i],movelist[0].moves[2*i]-movelist[0].moves[2*i+1]);
 			}
 			SwapSides(anBoardTrain);
@@ -361,7 +362,7 @@ void playAgainstHuman(void)
 		
 		//Let's play the best move now
 		if (numberOfMoves) {
-			for(int i=0; i<movelist[0].cMoves; ++i)
+                        for(int i=0; i<movelist[0].partialMoves; ++i)
 				ApplySubMove(anBoardTrain,movelist[0].moves[2*i],movelist[0].moves[2*i]-movelist[0].moves[2*i+1]);
 		}
 		memcpy(anBoardTemp, anBoardTrain, sizeof(anBoardTrain));
@@ -382,7 +383,7 @@ void playAgainstHuman(void)
 		else {
 			printAllMoves(d1,d2);
 			themove=getMove();
-			for(int i=0; i<movelist[themove].cMoves; ++i)
+                        for(int i=0; i<movelist[themove].partialMoves; ++i)
 				ApplySubMove(anBoardTrain,movelist[themove].moves[2*i],movelist[themove].moves[2*i]-movelist[themove].moves[2*i+1]);
 		}
 		memcpy(anBoardTemp, anBoardTrain, sizeof(anBoardTrain));
@@ -586,7 +587,7 @@ void SaveMoves(int cMoves, int cPip, int anMoves[],int anBoard[ 2 ][ 25 ])
 	if (Exists(anBoard))
 		return;
 	memcpy(movelist[numberOfMoves].Board,anBoard,2*25*sizeof(int));
-	movelist[numberOfMoves].cMoves=cMoves;
+        movelist[numberOfMoves].partialMoves=cMoves;
 	movelist[numberOfMoves].cPips=cPip;
 	for(int i=0; i<8; ++i)
 		movelist[numberOfMoves].moves[i]=anMoves[i];
@@ -749,7 +750,7 @@ real *ConvertToInputVector(int anBoard[2][25])
 #endif
 #ifdef PLAKOTO1_INPUT_ENCODING
 	for(i=0; i<24; ++i) {
-		if (t=anBoard[1][i]) {
+                if ((t=anBoard[1][i])) {
 			if (t>64) {
 				t-=64;
 				vec[10*i+4]=1;
@@ -759,7 +760,7 @@ real *ConvertToInputVector(int anBoard[2][25])
 			if (t==3) vec[10*i+2]=1;
                         if (t>3)  vec[10*i+3]=(real)(t-3)/((real)12.0);
 		}
-		if (t=anBoard[0][i]) {
+                if ((t=anBoard[0][i])) {
 			if (t>64) {
 				t-=64;
                                 vec[10*i+9]=-1;
@@ -791,7 +792,7 @@ real *ConvertToInputVector(int anBoard[2][25])
 						++cap;
 						continue;
 					}
-					if (anBoard[1][23-d1-d1-d1-d1]<=1 && anBoard[0][d1+d1+d1+d1]>0) {
+                                        if (d1!=6 && anBoard[1][23-d1-d1-d1-d1]<=1 && anBoard[0][d1+d1+d1+d1]>0) {
 						++cap;
 						continue;
 					}
@@ -833,7 +834,7 @@ real *ConvertToInputVector(int anBoard[2][25])
 						++cap;
 						continue;
 					}
-					if (anBoard[0][23-d1-d1-d1-d1]<=1 && anBoard[1][d1+d1+d1+d1]>0) {
+                                        if (d1!=6 && anBoard[0][23-d1-d1-d1-d1]<=1 && anBoard[1][d1+d1+d1+d1]>0) {
 						++cap;
 						continue;
 					}
@@ -852,8 +853,8 @@ real *ConvertToInputVector(int anBoard[2][25])
 	}
 	
 #endif
-        vec[NUM_INPUTS-2] =  -(real) (anBoard[1][24])/((real)15.0);
-        vec[NUM_INPUTS-1] =  (real) (anBoard[0][24])/((real)15.0);
+        vec[NUM_INPUTS-2] =  (real) (anBoard[1][24])/((real)15.0);
+        vec[NUM_INPUTS-1] =  -(real) (anBoard[0][24])/((real)15.0);
 	return &vec[0];
 }
 
@@ -1043,7 +1044,7 @@ void printFevga(int anBoard[2][25], int step)
 	
 	for(int j=0; j<6; ++j) {
 		for(int i=0; i<12; ++i) {
-			if (t=anBoard[1][12+i]) {
+                        if ((t=anBoard[1][12+i])) {
 				if (j==0)
 					if (t>5)
 						std::cout <<std::setw(2)<<t<< " ";
@@ -1054,7 +1055,7 @@ void printFevga(int anBoard[2][25], int step)
 						std::cout << " " << a << " ";
 				else
 					std::cout << "   ";
-			} else if (t=anBoard[0][i]) {
+                        } else if ((t=anBoard[0][i])) {
 				if (j==0)
 					if (t>5)
 						std::cout <<std::setw(2)<<t<< " ";
@@ -1089,7 +1090,7 @@ void printFevga(int anBoard[2][25], int step)
 //	std::cout << std::endl;
 	for(int j=5; j>=0; --j) {
 		for(int i=0; i<12; ++i) {
-			if (t=anBoard[1][11-i]) {
+                        if ((t=anBoard[1][11-i])) {
 				if (j==0)
 					if (t>5)
 						std::cout <<std::setw(2)<<t<< " ";
@@ -1100,7 +1101,7 @@ void printFevga(int anBoard[2][25], int step)
 						std::cout << " " << a << " ";
 				else
 					std::cout << "   ";
-			} else if (t=anBoard[0][23-i]) {
+                        } else if ((t=anBoard[0][23-i])) {
 				if (j==0)
 					if (t>5)
 						std::cout <<std::setw(2)<<t<< " ";

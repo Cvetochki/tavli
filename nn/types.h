@@ -1,7 +1,7 @@
 #ifndef TYPES_H_
 #define TYPES_H_
 
-typedef double real;
+typedef float real;
 
 #define LEARNING_RATE	0.1
 //#define DECREASE_LEARNING_RATE 
@@ -63,7 +63,7 @@ typedef double real;
 
 struct _move {
 	int moves[8];
-	int cMoves;
+        int partialMoves;
 	int cPips;
 	real score[NUM_OUTPUTS];
 	int Board[2][25];
