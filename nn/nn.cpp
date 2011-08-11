@@ -80,7 +80,12 @@ int main(int argc, char **argv)
 	int benchmode=0;
 	
 	time_t start,now;
-	
+
+	std::cout << sizeof(struct _move) << std::endl;
+	std::cout << sizeof(struct __move) << std::endl;
+	std::cin >> n;
+	return 0;
+
 	startGameCounter=gameCounter=0;upto=300000;
 	start=time(&start);
 	srand((unsigned int) start);
