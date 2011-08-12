@@ -81,10 +81,10 @@ int main(int argc, char **argv)
 	
 	time_t start,now;
 
-	std::cout << sizeof(struct _move) << std::endl;
-	std::cout << sizeof(struct __move) << std::endl;
-	std::cin >> n;
-	return 0;
+//	std::cout << sizeof(struct _move) << std::endl;
+//	std::cout << sizeof(struct __move) << std::endl;
+//	std::cin >> n;
+//	return 0;
 
 	startGameCounter=gameCounter=0;upto=300000;
 	start=time(&start);
@@ -258,7 +258,7 @@ int main(int argc, char **argv)
 				else
 					printMove(movelist[0]);
 				printBoard(anBoardTemp,n);
-				ann.showStats();
+
 			}
 #endif
 			//Let's play the best move now
@@ -296,6 +296,7 @@ int main(int argc, char **argv)
 //				std::flush(std::cout);
 //			}
 		} while (!done);//!EvalOver());
+                if (!(gameCounter % 1000)) ann.showStats();
 		now=time(&now);
 		double elapsed=difftime(now,start);
                 int ng = gameCounter-startGameCounter;

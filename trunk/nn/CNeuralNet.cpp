@@ -200,13 +200,23 @@ void CNeuralNet::setGameCounter(int n)
 
 void CNeuralNet::showStats(void)
 {
+        static int lastTrainingCounter=0;
+        static time_t previousTime;
+
+        time_t now=time(&now);
 #ifdef GNUBG_LR
-	std::cout << "Trained positions: " << m_trainingCounter << " Learning Rate: "<<m_learningRate / pow(m_trainingCounter / 1000.0 + 1.0, 0.3 ) << std::endl;
+        std::cout << "Trained positions: " << m_trainingCounter << " Learning Rate: "<<m_learningRate / pow(m_trainingCounter / 1000.0 + 1.0, 0.3 );
 #elif defined(ALKIS_LR)
-	std::cout << "Trained positions: " << m_trainingCounter << " Learning Rate: "<<m_learningRate / pow(2,m_trainingCounter / 300000000.0) << std::endl;
+        std::cout << "Trained positions: " << m_trainingCounter << " Learning Rate: "<<m_learningRate / pow(2,m_trainingCounter / 300000000.0) ;
 #else
-	std::cout << "Trained positions: " << m_trainingCounter << " Learning Rate: "<<m_learningRate<< std::endl;
+        std::cout << "Trained positions: " << m_trainingCounter << " Learning Rate: "<<m_learningRate;
 #endif
+        if (lastTrainingCounter!=0) {
+            double elapsed=difftime(now,previousTime);
+            std::cout << " - " << (m_trainingCounter-lastTrainingCounter)/elapsed <<" tps." << std::endl;
+        }
+        lastTrainingCounter=m_trainingCounter;
+        previousTime=now;
 }
 real *CNeuralNet::nnFeed(real *inp)
 {

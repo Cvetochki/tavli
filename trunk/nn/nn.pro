@@ -7,7 +7,7 @@ TARGET =
 DEPENDPATH += .
 INCLUDEPATH += .
 QMAKE_CXXFLAGS_RELEASE -= -O2
-QMAKE_CXXFLAGS_RELEASE += -O3 -march=native -mfpmath=sse -msse4.2 -fomit-frame-pointer -funroll-loops -Wunsafe-loop-optimizations -Wno-write-strings
+QMAKE_CXXFLAGS_RELEASE += -O3 -march=native -mfpmath=sse -msse4.2 -fomit-frame-pointer -funroll-loops -Wunsafe-loop-optimizations -Wno-write-strings -std=c++0x
 # Input
 HEADERS += CNeuralNet.h types.h
 SOURCES += bench.cpp CNeuralNet.cpp nn.cpp
