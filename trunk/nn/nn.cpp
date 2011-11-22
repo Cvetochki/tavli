@@ -86,7 +86,7 @@ int main(int argc, char **argv)
 //	std::cin >> n;
 //	return 0;
 
-	startGameCounter=gameCounter=0;upto=300000;
+    startGameCounter=gameCounter=0;upto=500;
 	start=time(&start);
 	srand((unsigned int) start);
 	CNeuralNet ann(NUM_INPUTS,NUM_NEURONS,NUM_OUTPUTS);
@@ -262,10 +262,10 @@ int main(int argc, char **argv)
 			}
 #endif
 			//Let's play the best move now
-			if (numberOfMoves) {
-                                for(int i=0; i<movelist[0].partialMoves; ++i)
-					ApplySubMove(anBoardTrain,movelist[0].moves[2*i],movelist[0].moves[2*i]-movelist[0].moves[2*i+1]);
-			}
+            if (numberOfMoves) {
+                for(int i=0; i<movelist[0].partialMoves; ++i)
+                    ApplySubMove(anBoardTrain,movelist[0].moves[2*i],movelist[0].moves[2*i]-movelist[0].moves[2*i+1]);
+            }
 			SwapSides(anBoardTrain);
 			
 			/*if (GameOver(anBoardTrain,out)) {
@@ -755,28 +755,28 @@ real *ConvertToInputVector(int anBoard[2][25])
 	}
 #endif
 #ifdef PLAKOTO1_INPUT_ENCODING
-	for(i=0; i<24; ++i) {
-                if ((t=anBoard[1][i])) {
-			if (t>64) {
-				t-=64;
-				vec[10*i+4]=1;
-			}
-			if (t==1) vec[10*i+0]=1;
-			if (t==2) vec[10*i+1]=1;
-			if (t==3) vec[10*i+2]=1;
-                        if (t>3)  vec[10*i+3]=(real)(t-3)/((real)12.0);
-		}
-                if ((t=anBoard[0][i])) {
-			if (t>64) {
-				t-=64;
-                                vec[10*i+9]=-1;
-			}
-                        if (t==1) vec[10*i+5]=-1;
-                        if (t==2) vec[10*i+6]=-1;
-                        if (t==3) vec[10*i+7]=-1;
-                        if (t>3)  vec[10*i+8]=-(real)(t-3)/((real)12.0);
-		}
-	}
+    for(i=0; i<24; ++i) {
+        if ((t=anBoard[1][i])) {
+            if (t>64) {
+                t-=64;
+                vec[10*i+4]=1;
+            }
+            if (t==1) vec[10*i+0]=1;
+            if (t==2) vec[10*i+1]=1;
+            if (t==3) vec[10*i+2]=1;
+            if (t>3)  vec[10*i+3]=(real)(t-3)/((real)12.0);
+        }
+        if ((t=anBoard[0][i])) {
+            if (t>64) {
+                t-=64;
+                vec[10*i+9]=-1;
+            }
+            if (t==1) vec[10*i+5]=-1;
+            if (t==2) vec[10*i+6]=-1;
+            if (t==3) vec[10*i+7]=-1;
+            if (t>3)  vec[10*i+8]=-(real)(t-3)/((real)12.0);
+        }
+    }
 	
 	t=anBoard[1][23];
 	//assert(anBoard[0][0]<64);
