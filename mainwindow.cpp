@@ -33,6 +33,8 @@
 #endif
 
 #ifndef __WIN32__
+#include <unistd.h>
+#include <sys/types.h>
 #include <pwd.h> 
 #else
 #include <windows.h>
