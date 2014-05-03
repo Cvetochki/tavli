@@ -3,15 +3,14 @@
 
 #include "types.h"
 
-class CNeuron
-{
+class CNeuron {
 	int m_numOfInputs;
 
 public:
 	real *m_w;
 	real m_activation;
 	real m_error;
-	
+
 	CNeuron();
 	~CNeuron();
 	void setNumOfWeights(int n);
@@ -20,9 +19,8 @@ public:
 	real sigmoid(real x);
 };
 
-class CNeuralNet
-{
-	int	m_numOfInputs;
+class CNeuralNet {
+	int m_numOfInputs;
 	int m_numOfHiddenNeurons;
 	int m_numOfOutputs;
 	CNeuron *m_hiddenNeurons;
@@ -37,15 +35,14 @@ public:
 	CNeuralNet(char *filename);
 	~CNeuralNet();
 	real *nnFeed(real *inp);
-	int train(real *inp,real *target);
-	int newtrain(real *inp,real *target);
-	int newtrain2(real *inp,real *target);
-	
+	int train(real *inp, real *target);
+	int newtrain(real *inp, real *target);
+	int newtrain2(real *inp, real *target);
+
 	int saveNet(char *filename);
 	int loadNet(char *filename);
 	void setGameCounter(int n);
 	void showStats(void);
 };
-
 
 #endif //_CNEURALNET_H_
