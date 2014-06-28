@@ -5,7 +5,7 @@
 #include <math.h>
 #include <fstream>
 #include <limits>
-
+#include <time.h>
 #include <assert.h>
 
 CNeuron::CNeuron() {
@@ -193,8 +193,9 @@ void CNeuralNet::setGameCounter(int n) {
 void CNeuralNet::showStats(void) {
 	static int lastTrainingCounter = 0;
 	static time_t previousTime;
+	time_t now;
 
-	time_t now = time(&now);
+	now = time(&now);
 #ifdef GNUBG_LR
 	std::cout << "Trained positions: " << m_trainingCounter << " Learning Rate: "<<m_learningRate / pow(m_trainingCounter / 1000.0 + 1.0, 0.3 );
 #elif defined(ALKIS_LR)
