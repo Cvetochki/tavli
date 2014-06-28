@@ -20,6 +20,7 @@ int gMaxPips;
 int gGotToSaveNow=0;
 
 CNeuralNet *nn, *nnbench;
+int main(int,char **);
 
 void my_handler(int s) {
 	printf("\n\nCaught signal: %d\n", s);
